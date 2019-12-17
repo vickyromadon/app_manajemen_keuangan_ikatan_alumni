@@ -51,21 +51,15 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img src="https://placehold.it/1200x400?text=IMAGE" alt="Image">
+            @for ($i = 0; $i < count($slider); $i++)
+            <div class="item {{ $i==0 ? 'item active' : 'item' }}">
+                <img src="{{ asset('storage/'.$slider[$i]->image) }}" alt="Image" style="widht:100%; height:70vh;">
                 <div class="carousel-caption">
-                    <h3>Slide Satu</h3>
-                    <p>Ini adalah slide satu.</p>
+                    <h3>{{ $slider[$i]->title }}</h3>
+                    <p>{{ $slider[$i]->description }}</p>
                 </div>
             </div>
-
-            <div class="item">
-                <img src="https://placehold.it/1200x400?text=Another Image Maybe" alt="Image">
-                <div class="carousel-caption">
-                    <h3>Slide Dua</h3>
-                    <p>Ini adalah slide dua.</p>
-                </div>
-            </div>
+            @endfor
         </div>
 
         <!-- Left and right controls -->

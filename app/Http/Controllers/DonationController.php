@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Donation;
+use App\Models\Bank;
 
 class DonationController extends Controller
 {
@@ -18,6 +19,7 @@ class DonationController extends Controller
     {
         return $this->view([
             'data' => Donation::find($id),
+            'bank' => Bank::all(),
         ]);
     }
 }

@@ -170,6 +170,16 @@
                             <i class="fa fa-folder"></i> <span>Kritik dan Saran</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.slider.index') }}">
+                            <i class="fa fa-folder"></i> <span>Slider</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.bank.index') }}">
+                            <i class="fa fa-folder"></i> <span>Bank</span>
+                        </a>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

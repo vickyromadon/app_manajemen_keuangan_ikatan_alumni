@@ -22,4 +22,12 @@ class Event extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    /**
+     * Get the dana_events that owns the event.
+     */
+    public function dana_events()
+    {
+        return $this->hasMany('App\Models\DanaEvent');
+    }
 }

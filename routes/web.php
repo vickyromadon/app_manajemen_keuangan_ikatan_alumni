@@ -50,6 +50,7 @@ Route::resource('event',    'EventController', ['only' => [
 
 // donation
 Route::get('donation',      'DonationController@index')->name('donation.index');
+Route::post('donation/change-password/{id}',    'ProfileController@changePassword')->name('profile.change-password');
 Route::resource('donation', 'DonationController', ['only' => [
     'show',
 ]]);
@@ -116,6 +117,20 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::match(['get', 'post'], 'message',   'MessageController@index')->name('message.index');
         Route::resource('message',                 'MessageController', ['only' => [
             'destroy',
+        ]]);
+
+        // slider
+        Route::match(['get', 'post'], 'slider', 'SliderController@index')->name('slider.index');
+        Route::post('slider/add',               'SliderController@store')->name('slider.store');
+        Route::resource('slider',               'SliderController', ['only' => [
+            'update', 'destroy',
+        ]]);
+
+        // bank
+        Route::match(['get', 'post'], 'bank',   'BankController@index')->name('bank.index');
+        Route::post('bank/add',                 'BankController@store')->name('bank.store');
+        Route::resource('bank',                 'BankController', ['only' => [
+            'update', 'destroy',
         ]]);
     });
 });

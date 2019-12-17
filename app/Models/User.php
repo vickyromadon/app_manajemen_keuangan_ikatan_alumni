@@ -76,4 +76,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Donation');
     }
+
+    /**
+     * Get the dana_events that owns the user.
+     */
+    public function dana_events()
+    {
+        return $this->hasMany('App\Models\DanaEvent');
+    }
 }
