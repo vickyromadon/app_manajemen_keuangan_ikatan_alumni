@@ -72,6 +72,14 @@ class ContributionController extends Controller
             'descripiton'       => 'nullable|string',
         ]);
 
+        $checkContribution = DanaContribution::where('user_id', '=', Auth::user()->id)->where('contribution_id', '=', $request->contribution_id)->first();
+        if($checkContribution != null){
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Anda sudah melakukan pembayaran untuk iuran ini.'
+            ]);
+        }
+
         $danaContribution                  = new DanaContribution();
         $danaContribution->contribution_id = $request->contribution_id;
         $danaContribution->bank_id         = $request->bank_id;
