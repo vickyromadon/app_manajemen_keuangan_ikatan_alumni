@@ -59,6 +59,11 @@
                                     Donasi
                                 </a>
                             </li>
+                            <li class="{{(Request::segment(1) == 'contribution') ? "active" : ""}}">
+                                <a href="{{ route('contribution.index') }}">
+                                    Iuran
+                                </a>
+                            </li>
                         </ul>
                         <form class="navbar-form navbar-left" role="search">
                             <div class="form-group">
@@ -129,20 +134,39 @@
                                         </p>
                                     </li>
 
-                                    <li class="user-footer">
-                                        <div class="pull-left">
-                                            <a href="{{ route('profile.index') }}" class="btn btn-default btn-flat">Profile</a>
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-4 text-center">
+                                                <a href="{{ route('dana-event.index') }}">Riwayat Event</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="{{ route('dana-donation.index') }}">Riwayat Donasi</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="{{ route('dana-contribution.index') }}">Riwayat Iuran</a>
+                                            </div>
                                         </div>
-                                        <div class="pull-right">
-                                            <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
-                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                Keluar
-                                            </a>
+                                    </li>
 
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                style="display: none;">
-                                                {{ csrf_field() }}
-                                            </form>
+                                    <li class="user-footer">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <a href="{{ route('profile.index') }}" class="btn btn-default btn-flat">Profile</a>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <a href="{{ route('message.index') }}" class="btn btn-default btn-flat">Pesan</a>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    Keluar
+                                                </a>
+
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                    style="display: none;">
+                                                    {{ csrf_field() }}
+                                                </form>
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>

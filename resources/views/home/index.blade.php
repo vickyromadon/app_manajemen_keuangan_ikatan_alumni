@@ -116,7 +116,7 @@
                     <hr>
                     <p class="text-left">
                         @if (strlen($item->description) > 200)
-                            {!! substr($item->description, 0, 200) !!} ... <a href="">Baca Selengkapnya</a>
+                            {!! substr($item->description, 0, 200) !!} ... <a href="{{ route('news.show', ['id' => $item->id]) }}">Baca Selengkapnya</a>
                         @else
                             {!! $item->description !!}
                         @endif
@@ -134,12 +134,14 @@
         <br>
         <div class="row">
             @foreach ($event as $item)
-            <div class="col-sm-4">
-                <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%" alt="Image">
-                <h4>
-                    <b>{{ $item->title }}</b>
-                </h4>
-            </div>
+            <a href="{{ route('event.show', ['id' => $item->id]) }}">
+                <div class="col-sm-4">
+                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%" alt="Image">
+                    <h4>
+                        <b>{{ $item->title }}</b>
+                    </h4>
+                </div>
+            </a>
             @endforeach
         </div>
     </div>
@@ -151,13 +153,15 @@
         <br>
         <div class="row">
             @foreach ($galery as $item)
-            <div class="col-sm-2">
-                <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%" alt="Image">
-                <h5>
-                    <b>{{ $item->title }}</b>
-                </h5>
-            </div>
+            <a href="{{ route('galery.show', ['id' => $item->id]) }}">
+                <div class="col-sm-2">
+                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%" alt="Image">
+                    <h5>
+                        <b>{{ $item->title }}</b>
+                    </h5>
+                </div>
             @endforeach
+            </a>
         </div>
     </div>
 @endsection

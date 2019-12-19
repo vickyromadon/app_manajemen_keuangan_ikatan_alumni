@@ -1,103 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="mt-4 mb-3">
-        {{ $data->title }}
-    </h1>
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title pull-left">
-                        <i class="fa fa-user"></i> Posting oleh {{ $data->user->name }}
-                    </h3>
-                    <h3 class="box-title pull-right">
-                        <i class="fa fa-calendar"></i> Posting pada {{ $data->created_at }}
-                    </h3>
-                </div>
-                <div class="box-body">
-                    <img class="img-fluid rounded" src="{{ asset('storage/'.$data->image) }}" alt="" style="width:100%">
-
-                    <p class="lead">
-                        {!! $data->description !!}
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-default">
-                        <div class="box-body">
-                            <h4>Tanggal Event <span class="pull-right">{{ $data->date }}</span></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @if ( $data->date < date('Y-m-d') )
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="alert alert-warning alert-dismissible">
-                        <h4><i class="icon fa fa-warning"></i> Informasi</h4>
-                        Waktu untuk galang dana sudah habis, karena event sudah lewat.
-                    </div>
-                </div>
-            </div>
-            @else
-            <div class="row">
-                <div class="col-md-12">
-                    <button id="btnGalang" class="btn btn-danger btn-flat col-md-12"><i class="fa fa-money"></i> Bantu Galang Dana</button>
-                </div>
-            </div>
-            @endif
+    <div class="jumbotron bg-gray">
+        <div class="container-fluid text-center">
+            <h1>Iuran</h1>
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi saepe aliquam ut eius. Facere temporibus velit rerum! Ullam sequi est itaque, cumque recusandae minus vel corrupti distinctio consequatur doloremque sit?
+            </p>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="box box-default">
-                <div class="box-header with-border text-center">
-                    <h3 class="box-title">Alumni Yang Sudah Melakukan Penggalangan Dana.</h3>
-                </div>
+        <div class="col-md-12">
+            <div class="box box-primary">
                 <div class="box-body">
-                    <ul class="products-list product-list-in-box">
-                        @foreach ($data->dana_events as $item)
-                            @if ( $item->status === "approve" )
-                                <li class="item">
-                                    <div class="product-img">
-                                        @if ( $item->user->image !== null )
-                                            <img src="{{ asset('storage/'.$item->user->image) }}" alt="Product Image">
-                                        @else
-                                            <img src="{{ asset('images/avatar_default.png') }}" alt="Product Image">
-                                        @endif
-                                    </div>
-                                    <div class="product-info">
-                                        <a href="javascript:void(0)" class="product-title">{{ $item->user->name }}
-                                            <span class="label label-warning pull-right">Rp. {{ $item->nominal }}</span></a>
-                                        <span class="product-description">
-                                            {{ $item->description }}
-                                        </span>
-                                    </div>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                    <div class="table-responsive">
+                        <table id="data_table" class="table table-striped table-bordered table-hover nowrap dataTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Judul</th>
+                                    <th>Tanggal Buka</th>
+                                    <th>Tanggal Tutup</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@if (Auth::user())
-    {{-- Modal Button Galang --}}
-    <div class="modal fade" tabindex="-1" role="dialog" id="modalGalang">
+    @if (Auth::user())
+    {{-- Modal Contribution --}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalContribution">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="#" method="post" id="formGalang" enctype="multipart/form-data" autocomplete="off">
+                <form action="#" method="post" id="formContribution" enctype="multipart/form-data" autocomplete="off">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -107,7 +48,7 @@
 
                     <div class="modal-body">
                         <div class="form-horizontal">
-                            <input type="hidden" id="event_id" name="event_id" value="{{ $data->id }}">
+                            <input type="hidden" id="contribution_id" name="contribution_id" value="">
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nominal</label>
@@ -133,7 +74,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Tanggal Transfer</label>
+                                <label class="col-sm-3 control-label">
+                                    Tanggal Transfer
+                                </label>
                                 <div class="col-sm-9">
                                     <input type="date" id="transfer_date" name="transfer_date" class="form-control" placeholder="Masukkan Tanggal Transfer">
                                     <span class="help-block"></span>
@@ -164,7 +107,7 @@
                             <i class="fa fa-close"></i> Batal
                         </button>
                         <button type="submit" class="btn btn-primary pull-right" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
-                            <i class="fa fa-money"></i> Galang
+                            <i class="fa fa-money"></i> Iuran
                         </button>
                     </div>
                 </form>
@@ -175,22 +118,88 @@
 @endsection
 
 @section('js')
-    <script>
+	<script>
         jQuery(document).ready(function($){
-            var url = null;
-            $('#btnGalang').click(function () {
+            var table = $('#data_table').DataTable({
+                "bFilter": true,
+                "processing": true,
+                "serverSide": true,
+                "lengthChange": true,
+                "ajax": {
+                    "url": "{{ route('contribution.index') }}",
+                    "type": "POST",
+                    "data" : {}
+                },
+                "language": {
+                    "emptyTable": "Tidak Ada Data Tersedia",
+                },
+                "columns": [
+                    {
+                       data: null,
+                       render: function (data, type, row, meta) {
+                           return meta.row + meta.settings._iDisplayStart + 1;
+                       },
+                       "width": "20px",
+                       "orderable": false,
+                    },
+                    {
+                        "data": "title",
+                        "orderable": true,
+                    },
+                    {
+                        "data": "open_date",
+                        "orderable": true,
+                    },
+                    {
+                        "data": "close_date",
+                        "orderable": true,
+                    },
+                    {
+                        "data": "status",
+                        render : function(data, type, row){
+                            if(data === "open"){
+                                return "Buka";
+                            } else {
+                                return "Tutup"
+                            }
+                        },
+                        "orderable": true,
+                    },
+                    {
+                        render : function(data, type, row){
+                            if (row.status === "open") {
+                                return	'<a href="#" class="contribution-btn btn btn-xs btn-success"><i class="fa fa-money"> Iuran</i></a>';
+                            } else {
+                                return "-";
+                            }
+                        },
+                        "width": "10%",
+                        "orderable": false,
+                    }
+                ],
+                "order": [ 2, 'desc' ],
+                "fnCreatedRow" : function(nRow, aData, iDataIndex) {
+                    $(nRow).attr('data', JSON.stringify(aData));
+                }
+            });
+
+            // contribution
+            $('#data_table').on('click', '.contribution-btn', function(e){
                 @if( Auth::user() )
-                    $('#formGalang')[0].reset();
-                    $('#formGalang .modal-title').text("Mulai Galang");
-                    $('#formGalang div.form-group').removeClass('has-error');
-                    $('#formGalang .help-block').empty();
-                    $('#formGalang button[type=submit]').button('reset');
+                    $('#formContribution')[0].reset();
+                    $('#formContribution .modal-title').text("Mulai Iuran");
+                    $('#formContribution div.form-group').removeClass('has-error');
+                    $('#formContribution .help-block').empty();
+                    $('#formContribution button[type=submit]').button('reset');
 
-                    $('#formGalang input[name="_method"]').remove();
+                    $('#formContribution input[name="_method"]').remove();
 
-                    url = "{{ route('donation.dana-event.add') }}";
+                    var aData = JSON.parse($(this).parent().parent().attr('data'));
+                    $('#contribution_id').val(aData.id);
 
-                    $('#modalGalang').modal('show');
+                    url = "{{ route('donation.dana-contribution.add') }}";
+
+                    $('#modalContribution').modal('show');
                 @else
                     $.toast({
                         heading: 'Error',
@@ -205,13 +214,13 @@
                 @endif
             });
 
-            $('#formGalang').submit(function (event) {
+            $('#formContribution').submit(function (event) {
                 event.preventDefault();
-                $('#formGalang div.form-group').removeClass('has-error');
-                $('#formGalang .help-block').empty();
-                $('#formGalang button[type=submit]').button('loading');
+                $('#formContribution div.form-group').removeClass('has-error');
+                $('#formContribution .help-block').empty();
+                $('#formContribution button[type=submit]').button('loading');
 
-                var formData = new FormData($("#formGalang")[0]);
+                var formData = new FormData($("#formContribution")[0]);
 
                 $.ajax({
                     url: url,
@@ -233,7 +242,7 @@
                                 loader : false
                             });
 
-                            $('#modalGalang').modal('hide');
+                            $('#modalContribution').modal('hide');
                         }
                         else {
                             $.toast({
@@ -251,24 +260,23 @@
                         //     location.reload();
                         // }, 2000);
 
-                        $('#formGalang button[type=submit]').button('reset');
+                        $('#formContribution button[type=submit]').button('reset');
                     },
 
                     error: function(response){
                         if (response.status === 422) {
                             // form validation errors fired up
                             var error = response.responseJSON.errors;
-                            var data = $('#formGalang').serializeArray();
+                            var data = $('#formContribution').serializeArray();
                             $.each(data, function(key, value){
                                 if( error[data[key].name] != undefined ){
-                                    console.log(data[key].name);
                                     var elem;
-                                    if( $("#formGalang input[name='" + data[key].name + "']").length )
-                                        elem = $("#formGalang input[name='" + data[key].name + "']");
-                                    else if( $("#formGalang select[name='" + data[key].name + "']").length )
-                                        elem = $("#formGalang select[name='" + data[key].name + "']");
+                                    if( $("#formContribution input[name='" + data[key].name + "']").length )
+                                        elem = $("#formContribution input[name='" + data[key].name + "']");
+                                    else if( $("#formContribution select[name='" + data[key].name + "']").length )
+                                        elem = $("#formContribution select[name='" + data[key].name + "']");
                                     else
-                                        elem = $("#formGalang textarea[name='" + data[key].name + "']");
+                                        elem = $("#formContribution textarea[name='" + data[key].name + "']");
 
                                     elem.parent().find('.help-block').text(error[data[key].name]);
                                     elem.parent().find('.help-block').show();
@@ -276,9 +284,9 @@
                                 }
                             });
                             if(error['proof'] != undefined){
-                                $("#formGalang input[name='proof']").parent().find('.help-block').text(error['proof']);
-                                $("#formGalang input[name='proof']").parent().find('.help-block').show();
-                                $("#formGalang input[name='proof']").parent().parent().addClass('has-error');
+                                $("#formContribution input[name='proof']").parent().find('.help-block').text(error['proof']);
+                                $("#formContribution input[name='proof']").parent().find('.help-block').show();
+                                $("#formContribution input[name='proof']").parent().parent().addClass('has-error');
                             }
                         }
                         else if (response.status === 400) {
@@ -306,10 +314,11 @@
                                 hideAfter: 5000
                             });
                         }
-                        $('#formGalang button[type=submit]').button('reset');
+                        $('#formContribution button[type=submit]').button('reset');
                     }
                 });
             });
         });
     </script>
 @endsection
+

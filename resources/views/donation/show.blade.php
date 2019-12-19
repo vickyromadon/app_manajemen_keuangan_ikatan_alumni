@@ -80,6 +80,40 @@
             @endif
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-default">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Alumni Yang Sudah Melakukan Donasi Dana.</h3>
+                </div>
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        @foreach ($data->dana_donations as $item)
+                            @if ( $item->status === "approve" )
+                                <li class="item">
+                                    <div class="product-img">
+                                        @if ( $item->user->image !== null )
+                                            <img src="{{ asset('storage/'.$item->user->image) }}" alt="Product Image">
+                                        @else
+                                            <img src="{{ asset('images/avatar_default.png') }}" alt="Product Image">
+                                        @endif
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="javascript:void(0)" class="product-title">{{ $item->user->name }}
+                                            <span class="label label-warning pull-right">Rp. {{ $item->nominal }}</span></a>
+                                        <span class="product-description">
+                                            {{ $item->description }}
+                                        </span>
+                                    </div>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @if (Auth::user())
@@ -97,54 +131,58 @@
 
                     <div class="modal-body">
                         <div class="form-horizontal">
-                                <input type="hidden" id="kota_mandiri_id" name="kota_mandiri_id" value="{{ $data->id }}">
+                            <input type="hidden" id="donation_id" name="donation_id" value="{{ $data->id }}">
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Nominal</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nominal</label>
 
-                                    <div class="col-sm-9">
-                                        <input type="text" id="nominal" name="nominal" class="form-control" placeholder="Masukkan Nominal">
-                                        <span class="help-block"></span>
-                                    </div>
+                                <div class="col-sm-9">
+                                    <input type="text" id="nominal" name="nominal" class="form-control" placeholder="Masukkan Nominal">
+                                    <span class="help-block"></span>
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Bank Tujuan</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Bank Tujuan</label>
 
-                                    <div class="col-sm-9">
-                                        <select name="bank_id" id="bank_id" class="form-control">
-                                            <option value="">-- Pilih Salah Satu --</option>
-                                            @foreach ($bank as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->number }} - ( a/n : {{ $item->owner }} )</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="help-block"></span>
-                                    </div>
+                                <div class="col-sm-9">
+                                    <select name="bank_id" id="bank_id" class="form-control">
+                                        <option value="">-- Pilih Salah Satu --</option>
+                                        @foreach ($bank as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->number }} - ( a/n : {{ $item->owner }} )</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="help-block"></span>
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">
-                                        Tanggal Transfer
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control" name="transfer_date" id="transfer_date" placeholder="Pilih Tanggal Transfer">
-                                            <span class="help-block"></span>
-                                        </div>
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                    Tanggal Transfer
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="date" id="transfer_date" name="transfer_date" class="form-control" placeholder="Masukkan Tanggal Transfer">
+                                    <span class="help-block"></span>
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Upload Bukti</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Upload Bukti</label>
 
-                                    <div class="col-sm-9">
-                                        <input type="file" id="proof" name="proof" class="form-control">
-                                        <span class="help-block"></span>
-                                    </div>
+                                <div class="col-sm-9">
+                                    <input type="file" id="proof" name="proof" class="form-control">
+                                    <span class="help-block"></span>
                                 </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Pesan</label>
+
+                                <div class="col-sm-9">
+                                    <textarea name="description" id="description" class="form-control" placeholder="Tuliskan Sesuatu"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -176,6 +214,8 @@
 
                     $('#formDonasi input[name="_method"]').remove();
 
+                    url = "{{ route('donation.dana-donation.add') }}";
+
                     $('#modalDonasi').modal('show');
                 @else
                     $.toast({
@@ -189,6 +229,111 @@
                         hideAfter: 5000
                     });
                 @endif
+            });
+
+            $('#formDonasi').submit(function (event) {
+                event.preventDefault();
+                $('#formDonasi div.form-group').removeClass('has-error');
+                $('#formDonasi .help-block').empty();
+                $('#formDonasi button[type=submit]').button('loading');
+
+                var formData = new FormData($("#formDonasi")[0]);
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    processData : false,
+                    contentType : false,
+                    cache: false,
+
+                    success: function (response) {
+                        if (response.success) {
+                            $.toast({
+                                heading: 'Success',
+                                text : response.message,
+                                position : 'top-right',
+                                allowToastClose : true,
+                                showHideTransition : 'fade',
+                                icon : 'success',
+                                loader : false
+                            });
+
+                            $('#modalDonasi').modal('hide');
+                        }
+                        else {
+                            $.toast({
+                                heading: 'Error',
+                                text : response.message,
+                                position : 'top-right',
+                                allowToastClose : true,
+                                showHideTransition : 'fade',
+                                icon : 'error',
+                                loader : false
+                            });
+                        }
+
+                        // setTimeout(function () {
+                        //     location.reload();
+                        // }, 2000);
+
+                        $('#formDonasi button[type=submit]').button('reset');
+                    },
+
+                    error: function(response){
+                        if (response.status === 422) {
+                            // form validation errors fired up
+                            var error = response.responseJSON.errors;
+                            var data = $('#formDonasi').serializeArray();
+                            $.each(data, function(key, value){
+                                if( error[data[key].name] != undefined ){
+                                    var elem;
+                                    if( $("#formDonasi input[name='" + data[key].name + "']").length )
+                                        elem = $("#formDonasi input[name='" + data[key].name + "']");
+                                    else if( $("#formDonasi select[name='" + data[key].name + "']").length )
+                                        elem = $("#formDonasi select[name='" + data[key].name + "']");
+                                    else
+                                        elem = $("#formDonasi textarea[name='" + data[key].name + "']");
+
+                                    elem.parent().find('.help-block').text(error[data[key].name]);
+                                    elem.parent().find('.help-block').show();
+                                    elem.parent().parent().addClass('has-error');
+                                }
+                            });
+                            if(error['proof'] != undefined){
+                                $("#formDonasi input[name='proof']").parent().find('.help-block').text(error['proof']);
+                                $("#formDonasi input[name='proof']").parent().find('.help-block').show();
+                                $("#formDonasi input[name='proof']").parent().parent().addClass('has-error');
+                            }
+                        }
+                        else if (response.status === 400) {
+                            // Bad Client Request
+                            $.toast({
+                                heading: 'Error',
+                                text : response.responseJSON.message,
+                                position : 'top-right',
+                                allowToastClose : true,
+                                showHideTransition : 'fade',
+                                icon : 'error',
+                                loader : false,
+                                hideAfter: 5000
+                            });
+                        }
+                        else {
+                            $.toast({
+                                heading: 'Error',
+                                text : "Whoops, looks like something went wrong.",
+                                position : 'top-right',
+                                allowToastClose : true,
+                                showHideTransition : 'fade',
+                                icon : 'error',
+                                loader : false,
+                                hideAfter: 5000
+                            });
+                        }
+                        $('#formDonasi button[type=submit]').button('reset');
+                    }
+                });
             });
         });
     </script>

@@ -2,11 +2,11 @@
 
 @section('header')
     <h1>
-        Dataset
+        Iuran
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li class="active">Dataset</li>
+        <li class="active">Iuran</li>
     </ol>
 @endsection
 
@@ -22,15 +22,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>NIS</th>
-                            <th>Nama Lengkap</th>
-                            <th>Nama Orang Tua</th>
-                            <th>Tanggal Lahir</th>
-                            <th>Tempat Lahir</th>
-                            <th>Tahun Masuk</th>
-                            <th>Tahun Keluar</th>
+                            <th>Judul</th>
+                            <th>Tanggal Buka</th>
+                            <th>Tanggal Tutup</th>
                             <th>Status</th>
                             <th>Tanggal Buat</th>
+                            <th>Penulis</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -56,64 +53,50 @@
                             <input type="hidden" id="id" name="id">
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">NIS</label>
+                                <label class="col-sm-3 control-label">Judul</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="nis" name="nis" class="form-control" placeholder="Masukkan NIS">
+                                    <input type="text" id="title" name="title" class="form-control" placeholder="Masukkan Judul">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Nama Lengkap</label>
+                                <label class="col-sm-3 control-label">Tanggal Buka</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Masukkan Nama Lengkap">
+                                    <input type="date" id="open_date" name="open_date" class="form-control" placeholder="Masukkan Tanggal Buka">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Nama Orang Tua</label>
+                                <label class="col-sm-3 control-label">Tanggal Tutup</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="parent_name" name="parent_name" class="form-control" placeholder="Masukkan Nama Orang Tua">
+                                    <input type="date" id="close_date" name="close_date" class="form-control" placeholder="Masukkan Tanggal Tutup">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Tanggal Lahir</label>
+                                <label class="col-sm-3 control-label">Deskripsi</label>
 
                                 <div class="col-sm-9">
-                                    <input type="date" id="birthdate" name="birthdate" class="form-control" placeholder="Masukkan Tanggal Lahir">
+                                    <div class="summernote" id="description" name="description"></div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Tempat Lahir</label>
+                                <label class="col-sm-3 control-label">Status</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" id="birthplace" name="birthplace" class="form-control" placeholder="Masukkan Tempat Lahir">
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Tahun Masuk</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" id="entrydate" name="entrydate" class="form-control" placeholder="Masukkan Tahun Masuk">
-                                    <span class="help-block"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Tahun Keluar</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" id="outdate" name="outdate" class="form-control" placeholder="Masukkan Tahun Keluar">
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="">-- Pilih Salah Satu--</option>
+                                        <option value="open">Buka</option>
+                                        <option value="close">Tutup</option>
+                                    </select>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
@@ -136,17 +119,17 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="modalDelete">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('admin.dataset.destroy', ['id' => '#']) }}" method="post" id="formDelete">
+                <form action="{{ route('admin.contribution.destroy', ['id' => '#']) }}" method="post" id="formDelete">
                 	{{ method_field('DELETE') }}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">Hapus Dataset</h4>
+                        <h4 class="modal-title">Hapus Iuran</h4>
                     </div>
 
                     <div class="modal-body">
-                        <p id="del-success">Anda yakin ingin menghapus Dataset ?</p>
+                        <p id="del-success">Anda yakin ingin menghapus Iuran ?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
@@ -160,9 +143,59 @@
             </div>
         </div>
     </div>
+
+    <!-- view -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalView">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+
+                <div class="modal-body">
+                    <table style="border-spacing: 10px; border-collapse: separate;">
+                        <tr>
+                            <th>Judul</th>
+                            <td>:</td>
+                            <td id="title"></td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal Buka</th>
+                            <td>:</td>
+                            <td id="open_date"></td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal Tutup</th>
+                            <td>:</td>
+                            <td id="close_date"></td>
+                        </tr>
+                        <tr>
+                            <th>Deskripsi</th>
+                            <td>:</td>
+                            <td id="description"></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>:</td>
+                            <td id="status"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
+    <script src="{{ mix('/js/summernote.js') }}"></script>
 	<script>
         jQuery(document).ready(function($){
             var table = $('#data_table').DataTable({
@@ -171,7 +204,7 @@
                 "serverSide": true,
                 "lengthChange": true,
                 "ajax": {
-                    "url": "{{ route('admin.dataset.index') }}",
+                    "url": "{{ route('admin.contribution.index') }}",
                     "type": "POST",
                     "data" : {}
                 },
@@ -188,42 +221,19 @@
                        "orderable": false,
                     },
                     {
-                        "data": "nis",
+                        "data": "title",
                         "orderable": true,
                     },
                     {
-                        "data": "fullname",
+                        "data": "open_date",
                         "orderable": true,
                     },
                     {
-                        "data": "parent_name",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "birthdate",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "birthplace",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "entrydate",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "outdate",
+                        "data": "close_date",
                         "orderable": true,
                     },
                     {
                         "data": "status",
-                        render : function(data, type, row){
-                            if(data == 1){
-                                return "Sudah Ada";
-                            } else {
-                                return "Belum Ada";
-                            }
-                        },
                         "orderable": true,
                     },
                     {
@@ -231,15 +241,23 @@
                         "orderable": true,
                     },
                     {
+                        "data": "user",
+                        render: function (data, type, row){
+                            return data.name;
+                        },
+                        "orderable": true,
+                    },
+                    {
                         render : function(data, type, row){
-                            return	'<a href="#" class="edit-btn btn btn-xs btn-warning"><i class="fa fa-pencil"> Ubah</i></a> &nbsp' +
+                            return	'<a href="#" class="view-btn btn btn-xs btn-info"><i class="fa fa-eye"> Lihat</i></a> &nbsp' +
+                                    '<a href="#" class="edit-btn btn btn-xs btn-warning"><i class="fa fa-pencil"> Ubah</i></a> &nbsp' +
                                 	'<a href="#" class="delete-btn btn btn-xs btn-danger"><i class="fa fa-trash"></i> Hapus</a>';
                         },
                         "width": "10%",
                         "orderable": false,
                     }
                 ],
-                "order": [ 1, 'asc' ],
+                "order": [ 2, 'desc' ],
                 "fnCreatedRow" : function(nRow, aData, iDataIndex) {
                     $(nRow).attr('data', JSON.stringify(aData));
                 }
@@ -248,13 +266,15 @@
             // add
             $('#btnAdd').click(function () {
                 $('#formAdd')[0].reset();
-                $('#formAdd .modal-title').text("Tambah Dataset");
+                $('#formAdd .modal-title').text("Tambah Iuran");
                 $('#formAdd div.form-group').removeClass('has-error');
                 $('#formAdd .help-block').empty();
                 $('#formAdd button[type=submit]').button('reset');
 
                 $('#formAdd input[name="_method"]').remove();
-                url = '{{ route("admin.dataset.store") }}';
+                url = '{{ route("admin.contribution.store") }}';
+
+                $("#description").summernote("code", "");
 
                 $('#modalAdd').modal('show');
             });
@@ -263,25 +283,40 @@
             $('#data_table').on('click', '.edit-btn', function(e){
                 $('#formAdd div.form-group').removeClass('has-error');
                 $('#formAdd .help-block').empty();
-                $('#formAdd .modal-title').text("Ubah Dataset");
+                $('#formAdd .modal-title').text("Ubah Iuran");
                 $('#formAdd')[0].reset();
                 var aData = JSON.parse($(this).parent().parent().attr('data'));
                 $('#formAdd button[type=submit]').button('reset');
 
                 $('#formAdd .modal-body .form-horizontal').append('<input type="hidden" name="_method" value="PUT">');
-                url = '{{ route("admin.dataset.index") }}' + '/' + aData.id;
+                url = '{{ route("admin.contribution.index") }}' + '/' + aData.id;
 
                 $('#id').val(aData.id);
-                $('#nis').val(aData.nis);
-                $('#fullname').val(aData.fullname);
-                $('#parent_name').val(aData.parent_name);
-                $('#birthdate').val(aData.birthdate);
-                $('#birthplace').val(aData.birthplace);
-                $('#entrydate').val(aData.entrydate);
-                $('#outdate').val(aData.outdate);
+                $('#title').val(aData.title);
+                $('#open_date').val(aData.open_date);
+                $('#close_date').val(aData.close_date);
                 $('#status').val(aData.status);
 
+                $("#description").summernote("code", aData.description);
+
                 $('#modalAdd').modal('show');
+            });
+
+            // View
+            $('#data_table').on('click', '.view-btn', function(e){
+                $('#modalView .modal-title').text("Lihat Iuran");
+
+                var aData = JSON.parse($(this).parent().parent().attr('data'));
+
+                $('#modalView #title').text(aData.title);
+                $('#modalView #open_date').text(aData.open_date);
+                $('#modalView #close_date').text(aData.close_date);
+                $('#modalView #status').text(aData.status);
+
+                $('#modalView #description').html("");
+                $('#modalView #description').append(aData.description);
+
+                $('#modalView').modal('show');
             });
 
             $('#formAdd').submit(function (event) {
@@ -290,7 +325,11 @@
                 $('#formAdd .help-block').empty();
                 $('#formAdd button[type=submit]').button('loading');
 
+                var description = $('#description').summernote('code');
                 var formData = new FormData($("#formAdd")[0]);
+                formData.append('description', description);
+
+                $('#description').summernote('destroy');
 
                 $.ajax({
                     url: url,
@@ -351,11 +390,6 @@
                                     elem.parent().parent().addClass('has-error');
                                 }
                             });
-                            if(error['image'] != undefined){
-                                $("#formAdd input[name='image']").parent().find('.help-block').text(error['image']);
-                                $("#formAdd input[name='image']").parent().find('.help-block').show();
-                                $("#formAdd input[name='image']").parent().parent().addClass('has-error');
-                            }
                         }
                         else if (response.status === 400) {
                             // Bad Client Request

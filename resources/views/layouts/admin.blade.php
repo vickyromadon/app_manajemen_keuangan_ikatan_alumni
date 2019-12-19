@@ -156,13 +156,33 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.contribution.index') }}">
+                            <i class="fa fa-folder"></i> <span>Iuran</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.dana-contribution.index') }}">
+                            <i class="fa fa-folder"></i> <span>Dana Iuran</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.event.index') }}">
                             <i class="fa fa-folder"></i> <span>Event</span>
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.dana-event.index') }}">
+                            <i class="fa fa-folder"></i> <span>Dana Event</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.donation.index') }}">
                             <i class="fa fa-folder"></i> <span>Donasi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.dana-donation.index') }}">
+                            <i class="fa fa-folder"></i> <span>Dana Donasi</span>
                         </a>
                     </li>
                     <li>

@@ -20,4 +20,20 @@ class Bank extends Model
     {
         return $this->hasMany('App\Models\DanaEvent');
     }
+
+    /**
+     * Get the dana_donations that owns the bank.
+     */
+    public function dana_donations()
+    {
+        return $this->hasMany('App\Models\DanaDonation');
+    }
+
+    /**
+     * Get the dana_donations that owns the bank.
+     */
+    public function dana_contributions()
+    {
+        return $this->hasMany('App\Models\DanaContribution');
+    }
 }

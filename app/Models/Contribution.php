@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Donation extends Model
+class Contribution extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,11 +12,11 @@ class Donation extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'image', 'description', 'donation_limit', 'link_video', 'user_id'
+        'title', 'description', 'open_date', 'close_date', 'status', 'user_id'
     ];
 
     /**
-     * Get the user for the event.
+     * Get the user for the contribution.
      */
     public function user()
     {
@@ -24,10 +24,10 @@ class Donation extends Model
     }
 
     /**
-     * Get the dana_donations that owns the donation.
+     * Get the dana_contributions that owns the contribution.
      */
-    public function dana_donations()
+    public function dana_contributions()
     {
-        return $this->hasMany('App\Models\DanaDonation');
+        return $this->hasMany('App\Models\DanaContribution');
     }
 }

@@ -47,13 +47,18 @@ Route::get('event',         'EventController@index')->name('event.index');
 Route::resource('event',    'EventController', ['only' => [
     'show',
 ]]);
+Route::post('event/dana-event/add',  'EventController@danaEventAdd')->name('donation.dana-event.add');
 
 // donation
-Route::get('donation',      'DonationController@index')->name('donation.index');
-Route::post('donation/change-password/{id}',    'ProfileController@changePassword')->name('profile.change-password');
-Route::resource('donation', 'DonationController', ['only' => [
+Route::get('donation',                  'DonationController@index')->name('donation.index');
+Route::resource('donation',             'DonationController', ['only' => [
     'show',
 ]]);
+Route::post('donation/dana-donation/add',  'DonationController@danaDonationAdd')->name('donation.dana-donation.add');
+
+// contribution
+Route::match(['get', 'post'], 'contribution',       'ContributionController@index')->name('contribution.index');
+Route::post('contribution/dana-contribution/add',   'ContributionController@danaContributionAdd')->name('donation.dana-contribution.add');
 
 Route::group(['middleware' => ['auth', 'alumni']], function () {
     // profile
@@ -61,6 +66,18 @@ Route::group(['middleware' => ['auth', 'alumni']], function () {
     Route::post('profile/change-password/{id}',    'ProfileController@changePassword')->name('profile.change-password');
     Route::post('profile/change-avatar/{id}',      'ProfileController@changeAvatar')->name('profile.change-avatar');
     Route::post('profile/change-setting/{id}',     'ProfileController@changeSetting')->name('profile.change-setting');
+
+    // message
+    Route::match(['get', 'post'], 'message', 'MessageController@index')->name('message.index');
+
+    // dana-event
+    Route::match(['get', 'post'], 'dana-event', 'DanaEventController@index')->name('dana-event.index');
+
+    // dana-donation
+    Route::match(['get', 'post'], 'dana-donation', 'DanaDonationController@index')->name('dana-donation.index');
+
+    // dana-contribution
+    Route::match(['get', 'post'], 'dana-contribution', 'DanaContributionController@index')->name('dana-contribution.index');
 });
 
 Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
@@ -126,11 +143,42 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
             'update', 'destroy',
         ]]);
 
-        // bank
+        // dana-event
         Route::match(['get', 'post'], 'bank',   'BankController@index')->name('bank.index');
         Route::post('bank/add',                 'BankController@store')->name('bank.store');
         Route::resource('bank',                 'BankController', ['only' => [
             'update', 'destroy',
         ]]);
+
+        // dana-event
+        Route::match(['get', 'post'], 'dana-event',   'DanaEventController@index')->name('dana-event.index');
+        Route::resource('dana-event',                 'DanaEventController', ['only' => [
+            'show'
+        ]]);
+        Route::post('dana-event/approve',               'DanaEventController@approve')->name('dana-event.approve');
+        Route::post('dana-event/reject',                'DanaEventController@reject')->name('dana-event.reject');
+
+        // dana-donation
+        Route::match(['get', 'post'], 'dana-donation',   'DanaDonationController@index')->name('dana-donation.index');
+        Route::resource('dana-donation',                 'DanaDonationController', ['only' => [
+            'show'
+        ]]);
+        Route::post('dana-donation/approve',               'DanaDonationController@approve')->name('dana-donation.approve');
+        Route::post('dana-donation/reject',                'DanaDonationController@reject')->name('dana-donation.reject');
+
+        // contribution
+        Route::match(['get', 'post'], 'contribution',   'ContributionController@index')->name('contribution.index');
+        Route::post('contribution/add',                 'ContributionController@store')->name('contribution.store');
+        Route::resource('contribution',                 'ContributionController', ['only' => [
+            'update', 'destroy',
+        ]]);
+
+        // dana-contribution
+        Route::match(['get', 'post'], 'dana-contribution',   'DanaContributionController@index')->name('dana-contribution.index');
+        Route::resource('dana-contribution',                 'DanaContributionController', ['only' => [
+            'show'
+        ]]);
+        Route::post('dana-contribution/approve',               'DanaContributionController@approve')->name('dana-contribution.approve');
+        Route::post('dana-contribution/reject',                'DanaContributionController@reject')->name('dana-contribution.reject');
     });
 });
