@@ -15,7 +15,7 @@
             @foreach ($galery as $item)
             <a href="{{ route('galery.show', ['id' => $item->id]) }}">
                 <div class="col-sm-3">
-                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%" alt="Image">
+                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%; height:150px;" alt="Image">
                     <h4>
                         <b>{{ $item->title }}</b>
                     </h4>

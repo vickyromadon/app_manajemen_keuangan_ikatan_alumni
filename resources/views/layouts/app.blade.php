@@ -64,13 +64,12 @@
                                     Iuran
                                 </a>
                             </li>
+                            <li class="{{(Request::segment(1) == 'income-report') ? "active" : ""}}">
+                                <a href="{{ route('income-report.index') }}">
+                                    Laporan Masuk
+                                </a>
+                            </li>
                         </ul>
-                        <form class="navbar-form navbar-left" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="navbar-search-input"
-                                    placeholder="Pencarian">
-                            </div>
-                        </form>
                     </div>
 
                     @if( !Auth::user() )

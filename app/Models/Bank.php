@@ -36,4 +36,12 @@ class Bank extends Model
     {
         return $this->hasMany('App\Models\DanaContribution');
     }
+
+    /**
+     * Get the income_reports that owns the bank.
+     */
+    public function income_reports()
+    {
+        return $this->hasMany('App\Models\IncomeReport');
+    }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaEvent;
+use App\Models\IncomeReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class DanaEventController extends Controller
@@ -68,10 +70,33 @@ class DanaEventController extends Controller
 
     public function approve(Request $request)
     {
-        $danaEvent = DanaEvent::find($request->id);
-        $danaEvent->status = "approve";
+        $statusRes = false;
 
-        if ($danaEvent->save()) {
+        DB::transaction(function () use ($request, &$statusRes) {
+            $danaEvent = DanaEvent::find($request->id);
+            $danaEvent->status = "approve";
+
+            if ($danaEvent->save()) {
+                $incomeReport                   = new IncomeReport();
+                $incomeReport->entry_date       = $danaEvent->transfer_date;
+                $incomeReport->type             = "event";
+                $incomeReport->nominal          = $danaEvent->nominal;
+                $incomeReport->description      = "Galang dana untuk " . $danaEvent->event->title;
+                $incomeReport->dana_event_id    = $danaEvent->id;
+                $incomeReport->user_id          = $danaEvent->user_id;
+                $incomeReport->bank_id          = $danaEvent->bank_id;
+
+                if ($incomeReport->save()) {
+                    $statusRes = true;
+                } else {
+                    $statusRes = false;
+                }
+            } else {
+                $statusRes = false;
+            }
+        });
+
+        if ($statusRes) {
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'

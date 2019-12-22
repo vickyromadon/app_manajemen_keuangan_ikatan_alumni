@@ -108,4 +108,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\DanaContribution');
     }
+
+    /**
+     * Get the income_reports that owns the user.
+     */
+    public function income_reports()
+    {
+        return $this->hasMany('App\Models\IncomeReport');
+    }
 }

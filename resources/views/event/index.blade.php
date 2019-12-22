@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <!-- Blog Post -->
             <div class="card mb-4">
-                <img class="card-img-top" src="{{ asset('storage/'.$item->image) }}" alt="Card image cap" style="width:100vh; height:50vh;">
+                <img class="card-img-top" src="{{ asset('storage/'.$item->image) }}" alt="Card image cap" style="width:100%; height:500px;">
                 <div class="card-body">
                     <h2 class="card-title"><b>{{ $item->title }}</b></h2>
                     <p class="card-text">

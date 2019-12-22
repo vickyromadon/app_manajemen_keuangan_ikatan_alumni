@@ -200,6 +200,11 @@
                             <i class="fa fa-folder"></i> <span>Bank</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.income-report.index') }}">
+                            <i class="fa fa-folder"></i> <span>Laporan Masuk</span>
+                        </a>
+                    </li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

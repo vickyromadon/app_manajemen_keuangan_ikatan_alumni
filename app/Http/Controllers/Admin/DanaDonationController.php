@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaDonation;
+use App\Models\IncomeReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class DanaDonationController extends Controller
@@ -68,10 +70,34 @@ class DanaDonationController extends Controller
 
     public function approve(Request $request)
     {
-        $danaDonation = DanaDonation::find($request->id);
-        $danaDonation->status = "approve";
+        $statusRes = false;
 
-        if ($danaDonation->save()) {
+        DB::transaction(function () use ($request, &$statusRes) {
+            $danaDonation = DanaDonation::find($request->id);
+            $danaDonation->status = "approve";
+
+            if ($danaDonation->save()) {
+                $incomeReport                   = new IncomeReport();
+                $incomeReport->entry_date       = $danaDonation->transfer_date;
+                $incomeReport->type             = "donation";
+                $incomeReport->nominal          = $danaDonation->nominal;
+                $incomeReport->description      = "Donasi untuk " . $danaDonation->donation->title;
+                $incomeReport->dana_donation_id = $danaDonation->id;
+                $incomeReport->user_id          = $danaDonation->user_id;
+                $incomeReport->bank_id          = $danaDonation->bank_id;
+
+                if ($incomeReport->save()) {
+                    $statusRes = true;
+                } else {
+                    $statusRes = false;
+                }
+            } else {
+                $statusRes = false;
+            }
+        });
+
+
+        if ($statusRes) {
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'

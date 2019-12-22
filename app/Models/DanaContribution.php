@@ -40,4 +40,12 @@ class DanaContribution extends Model
     {
         return $this->belongsTo('App\Models\Contribution');
     }
+
+    /**
+     * Get the income_reports that owns the dana contribution.
+     */
+    public function income_reports()
+    {
+        return $this->hasMany('App\Models\IncomeReport');
+    }
 }

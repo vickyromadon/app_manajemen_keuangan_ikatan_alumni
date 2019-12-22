@@ -40,4 +40,12 @@ class DanaEvent extends Model
     {
         return $this->belongsTo('App\Models\Event');
     }
+
+    /**
+     * Get the income_reports that owns the dana event.
+     */
+    public function income_reports()
+    {
+        return $this->hasMany('App\Models\IncomeReport');
+    }
 }

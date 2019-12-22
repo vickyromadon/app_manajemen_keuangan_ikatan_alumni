@@ -109,7 +109,7 @@
         <div class="row">
             @foreach ($news as $item)
             <div class="col-sm-3">
-                <div class="well">
+                <div class="well" style="min-height:200px;">
                     <h4>
                         <b>{{ $item->title }}</b>
                     </h4>
@@ -136,7 +136,7 @@
             @foreach ($event as $item)
             <a href="{{ route('event.show', ['id' => $item->id]) }}">
                 <div class="col-sm-4">
-                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%" alt="Image">
+                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%; height:200px;" alt="Image">
                     <h4>
                         <b>{{ $item->title }}</b>
                     </h4>
@@ -155,7 +155,7 @@
             @foreach ($galery as $item)
             <a href="{{ route('galery.show', ['id' => $item->id]) }}">
                 <div class="col-sm-2">
-                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%" alt="Image">
+                    <img src="{{ asset('storage/'.$item->image) }}" class="img-responsive" style="width:100%; height:100px;" alt="Image">
                     <h5>
                         <b>{{ $item->title }}</b>
                     </h5>

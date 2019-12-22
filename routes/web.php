@@ -60,6 +60,9 @@ Route::post('donation/dana-donation/add',  'DonationController@danaDonationAdd')
 Route::match(['get', 'post'], 'contribution',       'ContributionController@index')->name('contribution.index');
 Route::post('contribution/dana-contribution/add',   'ContributionController@danaContributionAdd')->name('donation.dana-contribution.add');
 
+// income-report
+Route::match(['get', 'post'], 'income-report',   'IncomeReportController@index')->name('income-report.index');
+
 Route::group(['middleware' => ['auth', 'alumni']], function () {
     // profile
     Route::get('profile',                          'ProfileController@index')->name('profile.index');
@@ -180,5 +183,8 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
         ]]);
         Route::post('dana-contribution/approve',               'DanaContributionController@approve')->name('dana-contribution.approve');
         Route::post('dana-contribution/reject',                'DanaContributionController@reject')->name('dana-contribution.reject');
+
+        // income-report
+        Route::match(['get', 'post'], 'income-report',   'IncomeReportController@index')->name('income-report.index');
     });
 });
