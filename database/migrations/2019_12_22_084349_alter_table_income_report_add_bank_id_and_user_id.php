@@ -30,7 +30,11 @@ class AlterTableIncomeReportAddBankIdAndUserId extends Migration
     public function down()
     {
         Schema::table('income_reports', function (Blueprint $table) {
-            //
+            $table->dropForeign('income_reports_user_id_foreign');
+            $table->dropColumn('user_id');
+
+            $table->dropForeign('income_reports_bank_id_foreign');
+            $table->dropColumn('bank_id');
         });
     }
 }

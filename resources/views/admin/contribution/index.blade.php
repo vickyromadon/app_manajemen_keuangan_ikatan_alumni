@@ -34,6 +34,28 @@
                 </table>
             </div>
         </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-md-4">
+                    {{-- <button class="btn btn-success btn-ls"><i class="fa fa-money"></i> Salurkan Dana</button>
+                    <button class="btn btn-info btn-ls"><i class="fa fa-dollar"></i> Keluarkan Iuran</button> --}}
+                </div>
+                <div class="col-md-8">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    <h1>Total Keseluruhan Iuran</h1>
+                                </th>
+                                <th>
+                                    <h1>Rp. {{ number_format($total_contribution->dana) }}</h1>
+                                </th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- add and edit -->
@@ -251,7 +273,8 @@
                         render : function(data, type, row){
                             return	'<a href="#" class="view-btn btn btn-xs btn-info"><i class="fa fa-eye"> Lihat</i></a> &nbsp' +
                                     '<a href="#" class="edit-btn btn btn-xs btn-warning"><i class="fa fa-pencil"> Ubah</i></a> &nbsp' +
-                                	'<a href="#" class="delete-btn btn btn-xs btn-danger"><i class="fa fa-trash"></i> Hapus</a>';
+                                	'<a href="#" class="delete-btn btn btn-xs btn-danger"><i class="fa fa-trash"></i> Hapus</a>&nbsp' +
+                                    '<a href="{{ route('admin.contribution.index') }}/'+ row.id +'" class="manage-btn btn btn-xs btn-success"><i class="fa fa-money"></i> Kelola</a>';
                         },
                         "width": "10%",
                         "orderable": false,

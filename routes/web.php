@@ -63,6 +63,9 @@ Route::post('contribution/dana-contribution/add',   'ContributionController@dana
 // income-report
 Route::match(['get', 'post'], 'income-report',   'IncomeReportController@index')->name('income-report.index');
 
+// expense-report
+Route::match(['get', 'post'], 'expense-report',   'ExpenseReportController@index')->name('expense-report.index');
+
 Route::group(['middleware' => ['auth', 'alumni']], function () {
     // profile
     Route::get('profile',                          'ProfileController@index')->name('profile.index');
@@ -123,15 +126,20 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::match(['get', 'post'], 'event',   'EventController@index')->name('event.index');
         Route::post('event/add',                 'EventController@store')->name('event.store');
         Route::resource('event',                 'EventController', ['only' => [
-            'update', 'destroy',
+            'update', 'destroy', 'show'
         ]]);
+        Route::post('event/salurkan-dana',       'EventController@salurkanDana')->name('event.salurkan-dana');
+        Route::post('event/keluarkan-iuran',     'EventController@keluarkanIuran')->name('event.keluarkan-iuran');
 
         // donation
         Route::match(['get', 'post'], 'donation',   'DonationController@index')->name('donation.index');
         Route::post('donation/add',                 'DonationController@store')->name('donation.store');
         Route::resource('donation',                 'DonationController', ['only' => [
-            'update', 'destroy',
+            'update', 'destroy', 'show'
         ]]);
+        Route::post('donation/salurkan-dana',       'DonationController@salurkanDana')->name('donation.salurkan-dana');
+        Route::post('donation/keluarkan-iuran',     'DonationController@keluarkanIuran')->name('donation.keluarkan-iuran');
+
 
         // message
         Route::match(['get', 'post'], 'message',   'MessageController@index')->name('message.index');
@@ -146,7 +154,7 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
             'update', 'destroy',
         ]]);
 
-        // dana-event
+        // bank
         Route::match(['get', 'post'], 'bank',   'BankController@index')->name('bank.index');
         Route::post('bank/add',                 'BankController@store')->name('bank.store');
         Route::resource('bank',                 'BankController', ['only' => [
@@ -173,7 +181,7 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::match(['get', 'post'], 'contribution',   'ContributionController@index')->name('contribution.index');
         Route::post('contribution/add',                 'ContributionController@store')->name('contribution.store');
         Route::resource('contribution',                 'ContributionController', ['only' => [
-            'update', 'destroy',
+            'update', 'destroy', 'show'
         ]]);
 
         // dana-contribution
@@ -186,5 +194,8 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
 
         // income-report
         Route::match(['get', 'post'], 'income-report',   'IncomeReportController@index')->name('income-report.index');
+
+        // expense-report
+        Route::match(['get', 'post'], 'expense-report',   'ExpenseReportController@index')->name('expense-report.index');
     });
 });

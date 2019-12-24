@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaContribution;
+use App\Models\TotalContribution;
 use App\Models\IncomeReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -87,7 +88,14 @@ class DanaContributionController extends Controller
                 $incomeReport->bank_id              = $danaContribution->bank_id;
 
                 if ($incomeReport->save()) {
-                    $statusRes = true;
+                    $totalContribution = TotalContribution::find(1);
+                    $totalContribution->dana += $danaContribution->nominal;
+
+                    if ($totalContribution->save()) {
+                        $statusRes = true;
+                    } else {
+                        $statusRes = false;
+                    }
                 } else {
                     $statusRes = false;
                 }

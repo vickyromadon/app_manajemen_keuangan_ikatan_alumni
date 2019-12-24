@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Donation;
+use App\Models\TotalContribution;
+use App\Models\ExpenseReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -169,6 +171,80 @@ class DonationController extends Controller
             return response()->json([
                 'success'   => false,
                 'message'   => 'Gagal Menghapus'
+            ]);
+        }
+    }
+
+    public function show($id)
+    {
+        return $this->view([
+            'data' => Donation::find($id),
+            'total_contribution' => TotalContribution::find(1)
+        ]);
+    }
+
+    public function salurkanDana(Request $request)
+    {
+        $validator = $request->validate([
+            'id_donation'   => 'required|numeric',
+            'nominal'       => 'required|numeric',
+            'description'   => 'nullable',
+        ]);
+
+        $donation = Donation::find($request->id_donation);
+        $donation->total_dana += $request->nominal;
+        $donation->save();
+
+        $expenseReport              = new ExpenseReport();
+        $expenseReport->out_date    = date("Y-m-d");
+        $expenseReport->type        = "Salurkan Donasi untuk " . $donation->title;
+        $expenseReport->nominal     = $request->nominal;
+        $expenseReport->description = $request->description;
+
+        if ($expenseReport->save()) {
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Berhasil Salurkan Donasi'
+            ]);
+        } else {
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Gagal Salurkan Donasi'
+            ]);
+        }
+    }
+
+    public function keluarkanIuran(Request $request)
+    {
+        $validator = $request->validate([
+            'id_donation'   => 'required|numeric',
+            'nominal'       => 'required|numeric',
+            'description'   => 'nullable',
+        ]);
+
+        $donation = Donation::find($request->id_donation);
+        $donation->total_contribution += $request->nominal;
+        $donation->save();
+
+        $expenseReport              = new ExpenseReport();
+        $expenseReport->out_date    = date("Y-m-d");
+        $expenseReport->type        = "Pengeluaran Iuran untuk " . $donation->title;
+        $expenseReport->nominal     = $request->nominal;
+        $expenseReport->description = $request->description;
+
+        if ($expenseReport->save()) {
+            $totalContribution = TotalContribution::find(1);
+            $totalContribution->dana -= $request->nominal;
+            $totalContribution->save();
+
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Berhasil Salurkan Iuran'
+            ]);
+        } else {
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Gagal Salurkan Iuran'
             ]);
         }
     }

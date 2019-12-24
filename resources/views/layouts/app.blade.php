@@ -69,6 +69,11 @@
                                     Laporan Masuk
                                 </a>
                             </li>
+                            <li class="{{(Request::segment(1) == 'expense-report') ? "active" : ""}}">
+                                <a href="{{ route('expense-report.index') }}">
+                                    Laporan Keluar
+                                </a>
+                            </li>
                         </ul>
                     </div>
 

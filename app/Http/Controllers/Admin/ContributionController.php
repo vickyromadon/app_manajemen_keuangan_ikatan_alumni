@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Contribution;
+use App\Models\TotalContribution;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class ContributionController extends Controller
 {
@@ -60,7 +59,9 @@ class ContributionController extends Controller
             return response()->json($response);
         }
 
-        return $this->view();
+        return $this->view([
+            'total_contribution' => TotalContribution::where('id', 1)->first()
+        ]);
     }
 
     public function store(Request $request)
@@ -139,5 +140,12 @@ class ContributionController extends Controller
                 'message'   => 'Gagal Menghapus'
             ]);
         }
+    }
+
+    public function show($id)
+    {
+        return $this->view([
+            'data' => Contribution::find($id)
+        ]);
     }
 }

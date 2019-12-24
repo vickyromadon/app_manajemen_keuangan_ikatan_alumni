@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Models\TotalContribution;
+use App\Models\ExpenseReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -165,6 +167,80 @@ class EventController extends Controller
             return response()->json([
                 'success'   => false,
                 'message'   => 'Gagal Menghapus'
+            ]);
+        }
+    }
+
+    public function show($id)
+    {
+        return $this->view([
+            'data' => Event::find($id),
+            'total_contribution' => TotalContribution::find(1)
+        ]);
+    }
+
+    public function salurkanDana(Request $request)
+    {
+        $validator = $request->validate([
+            'id_event'   => 'required|numeric',
+            'nominal'       => 'required|numeric',
+            'description'   => 'nullable',
+        ]);
+
+        $event = Event::find($request->id_event);
+        $event->total_dana += $request->nominal;
+        $event->save();
+
+        $expenseReport              = new ExpenseReport();
+        $expenseReport->out_date    = date("Y-m-d");
+        $expenseReport->type        = "Salurkan Galang Dana untuk " . $event->title;
+        $expenseReport->nominal     = $request->nominal;
+        $expenseReport->description = $request->description;
+
+        if ($expenseReport->save()) {
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Berhasil Salurkan Galang Dana'
+            ]);
+        } else {
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Gagal Salurkan Galang Dana'
+            ]);
+        }
+    }
+
+    public function keluarkanIuran(Request $request)
+    {
+        $validator = $request->validate([
+            'id_event'      => 'required|numeric',
+            'nominal'       => 'required|numeric',
+            'description'   => 'nullable',
+        ]);
+
+        $event = Event::find($request->id_event);
+        $event->total_contribution += $request->nominal;
+        $event->save();
+
+        $expenseReport              = new ExpenseReport();
+        $expenseReport->out_date    = date("Y-m-d");
+        $expenseReport->type        = "Pengeluaran Iuran untuk " . $event->title;
+        $expenseReport->nominal     = $request->nominal;
+        $expenseReport->description = $request->description;
+
+        if ($expenseReport->save()) {
+            $totalContribution = TotalContribution::find(1);
+            $totalContribution->dana -= $request->nominal;
+            $totalContribution->save();
+
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Berhasil Salurkan Iuran'
+            ]);
+        } else {
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Gagal Salurkan Iuran'
             ]);
         }
     }

@@ -12,7 +12,7 @@ class Donation extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'image', 'description', 'donation_limit', 'link_video', 'user_id'
+        'title', 'image', 'description', 'donation_limit', 'link_video', 'user_id', 'total_dana', 'total_contribution'
     ];
 
     /**
