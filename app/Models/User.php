@@ -34,7 +34,7 @@ class User extends Authenticatable
      */
     public function dataset()
     {
-        return $this->hasOne('App\Models\Dataset');
+        return $this->belongsTo('App\Models\Dataset');
     }
 
     /**

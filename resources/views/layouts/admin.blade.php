@@ -135,81 +135,139 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li>
+                    <li class="{{(Request::segment(2) == '') ? "active" : ""}}">
                         <a href="{{ route('admin.index') }}">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                         </a>
                     </li>
-                    <li>
+
+                    @if (Auth::user()->can('dataset'))
+                    <li class="{{(Request::segment(2) == 'dataset') ? "active" : ""}}">
                         <a href="{{ route('admin.dataset.index') }}">
                             <i class="fa fa-folder"></i> <span>Dataset</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('news'))
+                    <li class="{{(Request::segment(2) == 'news') ? "active" : ""}}">
                         <a href="{{ route('admin.news.index') }}">
                             <i class="fa fa-folder"></i> <span>Berita</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('galery'))
+                    <li class="{{(Request::segment(2) == 'galery') ? "active" : ""}}">
                         <a href="{{ route('admin.galery.index') }}">
                             <i class="fa fa-folder"></i> <span>Galeri</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('contribution'))
+                    <li class="{{(Request::segment(2) == 'contribution') ? "active" : ""}}">
                         <a href="{{ route('admin.contribution.index') }}">
                             <i class="fa fa-folder"></i> <span>Iuran</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('dana-contribution'))
+                    <li class="{{(Request::segment(2) == 'dana-contribution') ? "active" : ""}}">
                         <a href="{{ route('admin.dana-contribution.index') }}">
                             <i class="fa fa-folder"></i> <span>Dana Iuran</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('event'))
+                    <li class="{{(Request::segment(2) == 'event') ? "active" : ""}}">
                         <a href="{{ route('admin.event.index') }}">
                             <i class="fa fa-folder"></i> <span>Event</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('dana-event'))
+                    <li class="{{(Request::segment(2) == 'dana-event') ? "active" : ""}}">
                         <a href="{{ route('admin.dana-event.index') }}">
                             <i class="fa fa-folder"></i> <span>Dana Event</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('donation'))
+                    <li class="{{(Request::segment(2) == 'donation') ? "active" : ""}}">
                         <a href="{{ route('admin.donation.index') }}">
                             <i class="fa fa-folder"></i> <span>Donasi</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('dana-donation'))
+                    <li class="{{(Request::segment(2) == 'dana-donation') ? "active" : ""}}">
                         <a href="{{ route('admin.dana-donation.index') }}">
                             <i class="fa fa-folder"></i> <span>Dana Donasi</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('message'))
+                    <li class="{{(Request::segment(2) == 'message') ? "active" : ""}}">
                         <a href="{{ route('admin.message.index') }}">
                             <i class="fa fa-folder"></i> <span>Kritik dan Saran</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('slider'))
+                    <li class="{{(Request::segment(2) == 'slider') ? "active" : ""}}">
                         <a href="{{ route('admin.slider.index') }}">
                             <i class="fa fa-folder"></i> <span>Slider</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('bank'))
+                    <li class="{{(Request::segment(2) == 'bank') ? "active" : ""}}">
                         <a href="{{ route('admin.bank.index') }}">
                             <i class="fa fa-folder"></i> <span>Bank</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('income-report'))
+                    <li class="{{(Request::segment(2) == 'income-report') ? "active" : ""}}">
                         <a href="{{ route('admin.income-report.index') }}">
                             <i class="fa fa-folder"></i> <span>Laporan Masuk</span>
                         </a>
                     </li>
-                    <li>
+                    @endif
+
+                    @if (Auth::user()->can('expense-report'))
+                    <li class="{{(Request::segment(2) == 'expense-report') ? "active" : ""}}">
                         <a href="{{ route('admin.expense-report.index') }}">
                             <i class="fa fa-folder"></i> <span>Laporan Keluar</span>
                         </a>
                     </li>
+                    @endif
+
+                    @if (Auth::user()->can('role'))
+                    <li class="{{(Request::segment(2) == 'role') ? "active" : ""}}">
+                        <a href="{{ route('admin.role.index') }}">
+                            <i class="fa fa-folder"></i> <span>Pengelola Peranan</span>
+                        </a>
+                    </li>
+                    @endif
+
+                    @if (Auth::user()->can('user'))
+                    <li class="{{(Request::segment(2) == 'user') ? "active" : ""}}">
+                        <a href="{{ route('admin.user.index') }}">
+                            <i class="fa fa-folder"></i> <span>Pengelola Pengguna</span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

@@ -91,7 +91,7 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
     Route::match(['get', 'post'], 'login', 'Auth\LoginController@login')->name('login');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::group(['middleware' => ['auth', 'admin']], function () {
+    Route::group(['middleware' => ['auth', 'admin', 'checkpermission']], function () {
         // home
         Route::get('/', 'HomeController@index')->name('index');
 
@@ -197,5 +197,21 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
 
         // expense-report
         Route::match(['get', 'post'], 'expense-report',   'ExpenseReportController@index')->name('expense-report.index');
+
+        // role management
+        Route::match(['get', 'post'], 'role',    'RoleController@index')->name('role.index');
+        Route::post('role/add',                  'RoleController@store')->name('role.store');
+        Route::resource('role',                 'RoleController', ['only' => [
+            'create', 'show', 'edit', 'update', 'destroy'
+        ]]);
+
+        // user management
+        Route::match(['get', 'post'], 'user',    'UserController@index')->name('user.index');
+        Route::post('user/add',                  'UserController@store')->name('user.store');
+        Route::post('user/reset_password',         'UserController@resetPassword')->name('user.reset_password');
+        Route::post('user/change_role',         'UserController@changeRole')->name('user.change_role');
+        Route::resource('user',                 'UserController', ['only' => [
+            'show', 'update', 'destroy'
+        ]]);
     });
 });
