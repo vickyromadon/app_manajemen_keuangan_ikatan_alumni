@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaContribution;
 use App\Models\TotalContribution;
+use App\Models\User;
 use App\Models\IncomeReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -105,6 +106,21 @@ class DanaContributionController extends Controller
         });
 
         if ($statusRes) {
+            $danaContribution = DanaContribution::find($request->id);
+            $user = User::find($danaContribution->user_id);
+
+            if ($user->email != null) {
+                $data = array(
+                    'title' => $danaContribution->contribution->title,
+                    'nominal' => $danaContribution->nominal
+                );
+
+                \Mail::send('emails.contributionapprove', $data, function ($message) use ($danaContribution, $user) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to($user->email)->subject('Contribution ' . $danaContribution->contribution->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'
@@ -123,6 +139,20 @@ class DanaContributionController extends Controller
         $danaContribution->status = "reject";
 
         if ($danaContribution->save()) {
+            $user = User::find($danaContribution->user_id);
+
+            if ($user->email != null) {
+                $data = array(
+                    'title' => $danaContribution->contribution->title,
+                    'nominal' => $danaContribution->nominal
+                );
+
+                \Mail::send('emails.contributionreject', $data, function ($message) use ($danaContribution, $user) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to($user->email)->subject('Contribution ' . $danaContribution->contribution->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Ditolak'

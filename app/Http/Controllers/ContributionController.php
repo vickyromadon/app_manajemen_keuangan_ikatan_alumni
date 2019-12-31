@@ -90,6 +90,18 @@ class ContributionController extends Controller
         $danaContribution->proof           = $request->file('proof')->store('dana_contribution/' . Auth::user()->id);
 
         if ($danaContribution->save()) {
+            if (Auth::user()->email != null) {
+                $data = array(
+                    'title' => $danaContribution->contribution->title,
+                    'nominal' => $danaContribution->nominal
+                );
+
+                \Mail::send('emails.contributionpending', $data, function ($message) use ($danaContribution) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to(Auth::user()->email)->subject('Iuran ' . $danaContribution->contribution->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Iuran Dana Berhasil'

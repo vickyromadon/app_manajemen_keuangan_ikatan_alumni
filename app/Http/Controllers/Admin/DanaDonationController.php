@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaDonation;
 use App\Models\IncomeReport;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -98,6 +99,21 @@ class DanaDonationController extends Controller
 
 
         if ($statusRes) {
+            $danaDonation = DanaDonation::find($request->id);
+            $user = User::find($danaDonation->user_id);
+
+            if ($user->email != null) {
+                $data = array(
+                    'title' => $danaDonation->donation->title,
+                    'nominal' => $danaDonation->nominal
+                );
+
+                \Mail::send('emails.donationapprove', $data, function ($message) use ($danaDonation, $user) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to($user->email)->subject('Donasi ' . $danaDonation->donation->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'
@@ -116,6 +132,20 @@ class DanaDonationController extends Controller
         $danaDonation->status = "reject";
 
         if ($danaDonation->save()) {
+            $user = User::find($danaDonation->user_id);
+
+            if ($user->email != null) {
+                $data = array(
+                    'title' => $danaDonation->donation->title,
+                    'nominal' => $danaDonation->nominal
+                );
+
+                \Mail::send('emails.donationreject', $data, function ($message) use ($danaDonation, $user) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to($user->email)->subject('Donasi ' . $danaDonation->donation->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Ditolak'

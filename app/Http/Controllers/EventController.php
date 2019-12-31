@@ -47,6 +47,18 @@ class EventController extends Controller
         $danaEvent->proof           = $request->file('proof')->store('dana_event/' . Auth::user()->id);
 
         if ($danaEvent->save()) {
+            if (Auth::user()->email != null) {
+                $data = array(
+                    'title' => $danaEvent->event->title,
+                    'nominal' => $danaEvent->nominal
+                );
+
+                \Mail::send('emails.eventpending', $data, function ($message) use ($danaEvent) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to(Auth::user()->email)->subject('Event ' . $danaEvent->event->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Galang Dana Berhasil'

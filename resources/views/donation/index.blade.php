@@ -48,12 +48,10 @@
                     @endif
                 </div>
             </div>
-            @if (strlen($item->description) > 500)
-                <a class="btn btn-primary pull-right" href="{{ route('donation.show', ['id' => $item->id]) }}">
-                    Baca Selengkapnya
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                </a>
-            @endif
+            <a class="btn btn-primary pull-right" href="{{ route('donation.show', ['id' => $item->id]) }}">
+                Baca Selengkapnya
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
         </div>
     </div>
     <hr>

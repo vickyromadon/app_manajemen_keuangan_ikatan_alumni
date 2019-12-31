@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaEvent;
 use App\Models\IncomeReport;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -97,6 +98,21 @@ class DanaEventController extends Controller
         });
 
         if ($statusRes) {
+            $danaEvent = DanaEvent::find($request->id);
+            $user = User::find($danaEvent->user_id);
+
+            if ($user->email != null) {
+                $data = array(
+                    'title' => $danaEvent->event->title,
+                    'nominal' => $danaEvent->nominal
+                );
+
+                \Mail::send('emails.eventapprove', $data, function ($message) use ($danaEvent, $user) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to($user->email)->subject('Event ' . $danaEvent->event->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'
@@ -115,6 +131,20 @@ class DanaEventController extends Controller
         $danaEvent->status = "reject";
 
         if ($danaEvent->save()) {
+            $user = User::find($danaEvent->user_id);
+
+            if ($user->email != null) {
+                $data = array(
+                    'title' => $danaEvent->event->title,
+                    'nominal' => $danaEvent->nominal
+                );
+
+                \Mail::send('emails.eventreject', $data, function ($message) use ($danaEvent, $user) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to($user->email)->subject('Event ' . $danaEvent->event->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Ditolak'

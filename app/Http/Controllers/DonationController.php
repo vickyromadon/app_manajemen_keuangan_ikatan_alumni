@@ -47,6 +47,18 @@ class DonationController extends Controller
         $danaDonation->proof           = $request->file('proof')->store('dana_donation/' . Auth::user()->id);
 
         if ($danaDonation->save()) {
+            if ( Auth::user()->email != null ) {
+                $data = array(
+                    'title' => $danaDonation->donation->title,
+                    'nominal' => $danaDonation->nominal
+                );
+
+                \Mail::send('emails.donationpending', $data, function ($message) use ($danaDonation) {
+                    $message->from(env('MAIL_USERNAME'), env('MAIL_NAME'));
+                    $message->to(Auth::user()->email)->subject('Donasi ' . $danaDonation->donation->title);
+                });
+            }
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Donasi Dana Berhasil'
