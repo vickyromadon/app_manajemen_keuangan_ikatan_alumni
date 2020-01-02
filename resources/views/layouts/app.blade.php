@@ -91,23 +91,25 @@
                                 <!-- Menu toggle button -->
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-bell-o"></i>
-                                    <span class="label label-success">0</span>
+                                    <span class="label label-success">{{ $countUnreadNotif }}</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="header">Memiliki 0 Notifikasi yang Belum di Baca
+                                    <li class="header">Memiliki {{ $countUnreadNotif }} Notifikasi yang Belum di Baca
                                     </li>
                                     <li>
                                         <ul class="menu">
+                                            @foreach ($dataNotif as $data)
                                             <li>
-                                                <a href="#"
-                                                    title="Belum di buka"
-                                                    class="bg-gray">
+                                                <a href="{{ route('notification.show', ['id' => $data->id]) }}?id={{$data->id}}"
+                                                    title="{{ $data->status == \App\Models\Notification::STATUS_UNREAD ? 'Belum di buka' : '' }}"
+                                                    class="{{ $data->status == \App\Models\Notification::STATUS_UNREAD ? 'bg-gray' : '' }}">
                                                     <h4>
-                                                        Tipe
+                                                        {{ $data->type }}
                                                     </h4>
-                                                    <p>Pesan</p>
+                                                    <p>{{ $data->message }}</p>
                                                 </a>
                                             </li>
+                                            @endforeach
                                         </ul>
                                     </li>
                                 </ul>

@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class DanaDonationController extends Controller
 {
@@ -114,6 +116,14 @@ class DanaDonationController extends Controller
                 });
             }
 
+            $notification               = new Notification();
+            $notification->type         = "Donasi di Setujui";
+            $notification->message      = $user->name . " Donasi anda untuk " . $danaDonation->donation->title . " sebesar Rp." . number_format($danaDonation->nominal) . " telah di setujui oleh pengurus";
+            $notification->link         = "";
+            $notification->sender_id    = Auth::user()->id;
+            $notification->receiver_id  = $user->id;
+            $notification->save();
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'
@@ -145,6 +155,14 @@ class DanaDonationController extends Controller
                     $message->to($user->email)->subject('Donasi ' . $danaDonation->donation->title);
                 });
             }
+
+            $notification               = new Notification();
+            $notification->type         = "Donasi di tolak";
+            $notification->message      = $user->name . " Donasi anda untuk " . $danaDonation->donation->title . " sebesar Rp." . number_format($danaDonation->nominal) . " telah di tolak oleh pengurus";
+            $notification->link         = "";
+            $notification->sender_id    = Auth::user()->id;
+            $notification->receiver_id  = $user->id;
+            $notification->save();
 
             return response()->json([
                 'success'   => true,

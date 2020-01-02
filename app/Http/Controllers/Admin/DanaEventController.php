@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class DanaEventController extends Controller
 {
@@ -113,6 +115,14 @@ class DanaEventController extends Controller
                 });
             }
 
+            $notification               = new Notification();
+            $notification->type         = "Galang Dana di Setujui";
+            $notification->message      = $user->name . " Galang Dana anda untuk " . $danaEvent->event->title . " sebesar Rp." . number_format($danaEvent->nominal) . " telah di setujui oleh pengurus";
+            $notification->link         = "";
+            $notification->sender_id    = Auth::user()->id;
+            $notification->receiver_id  = $user->id;
+            $notification->save();
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'
@@ -144,6 +154,14 @@ class DanaEventController extends Controller
                     $message->to($user->email)->subject('Event ' . $danaEvent->event->title);
                 });
             }
+
+            $notification               = new Notification();
+            $notification->type         = "Galang Dana di tolak";
+            $notification->message      = $user->name . " Galang Dana anda untuk " . $danaEvent->event->title . " sebesar Rp." . number_format($danaEvent->nominal) . " telah di tolak oleh pengurus";
+            $notification->link         = "";
+            $notification->sender_id    = Auth::user()->id;
+            $notification->receiver_id  = $user->id;
+            $notification->save();
 
             return response()->json([
                 'success'   => true,

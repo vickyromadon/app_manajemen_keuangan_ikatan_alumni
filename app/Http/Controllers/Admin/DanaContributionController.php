@@ -9,6 +9,8 @@ use App\Models\IncomeReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class DanaContributionController extends Controller
 {
@@ -121,6 +123,14 @@ class DanaContributionController extends Controller
                 });
             }
 
+            $notification               = new Notification();
+            $notification->type         = "Iuran di Setujui";
+            $notification->message      = $user->name . " Iuran anda untuk " . $danaContribution->contribution->title . " sebesar Rp." . number_format($danaContribution->nominal) . " telah di setujui oleh pengurus";
+            $notification->link         = "";
+            $notification->sender_id    = Auth::user()->id;
+            $notification->receiver_id  = $user->id;
+            $notification->save();
+
             return response()->json([
                 'success'   => true,
                 'message'   => 'Berhasil Disetujui'
@@ -152,6 +162,14 @@ class DanaContributionController extends Controller
                     $message->to($user->email)->subject('Contribution ' . $danaContribution->contribution->title);
                 });
             }
+
+            $notification               = new Notification();
+            $notification->type         = "Iuran di tolak";
+            $notification->message      = $user->name . " Iuran anda untuk " . $danaContribution->contribution->title . " sebesar Rp." . number_format($danaContribution->nominal) . " telah di tolak oleh pengurus";
+            $notification->link         = "";
+            $notification->sender_id    = Auth::user()->id;
+            $notification->receiver_id  = $user->id;
+            $notification->save();
 
             return response()->json([
                 'success'   => true,

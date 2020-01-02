@@ -30,6 +30,10 @@ Route::get('result-account', 'Auth\RegisterController@resultAccount')->name('res
 // home
 Route::get('/', 'HomeController@index')->name('index');
 
+Route::resource('notification', 'NotificationController', ['only' => [
+    'show',
+]]);
+
 // news
 Route::get('news',      'NewsController@index')->name('news.index');
 Route::resource('news', 'NewsController', ['only' => [

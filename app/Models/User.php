@@ -116,4 +116,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\IncomeReport');
     }
+
+    public function senders()
+    {
+        return $this->hasMany('App\Models\Notification', 'sender_id', 'id');
+    }
+
+    public function receivers()
+    {
+        return $this->hasMany('App\Models\Notification', 'receiver_id', 'id');
+    }
 }
