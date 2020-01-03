@@ -12,9 +12,6 @@
 
 @section('content')
     <div class="box box-default">
-        <div class="box-header with-border">
-            <button id="btnAdd" class="pull-right btn btn-primary"><i class="fa fa-plus"></i> Tambah</button>
-        </div>
         <div class="box-body">
             <div class="table-responsive">
                 <table id="user_table" class="table table-bordered table-hover nowrap dataTable">
