@@ -70,6 +70,9 @@ Route::match(['get', 'post'], 'income-report',   'IncomeReportController@index')
 // expense-report
 Route::match(['get', 'post'], 'expense-report',   'ExpenseReportController@index')->name('expense-report.index');
 
+// management-section
+Route::match(['get', 'post'], 'management-section',   'ManagementSectionController@index')->name('management-section.index');
+
 Route::group(['middleware' => ['auth', 'alumni']], function () {
     // profile
     Route::get('profile',                          'ProfileController@index')->name('profile.index');

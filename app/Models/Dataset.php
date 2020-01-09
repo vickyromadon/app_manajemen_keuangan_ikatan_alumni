@@ -14,7 +14,7 @@ class Dataset extends Model
     protected $fillable = [
         'nis', 'fullname', 'parent_name',
         'birthdate', 'birthplace',
-        'entrydate', 'outdate', 'status'
+        'entrydate', 'outdate', 'status', 'department'
     ];
 
     /**

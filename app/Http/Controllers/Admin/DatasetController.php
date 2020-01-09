@@ -29,6 +29,7 @@ class DatasetController extends Controller
                 "birthplace",
                 "entrydate",
                 "outdate",
+                "department",
                 "status",
                 "created_at"
             ];
@@ -40,6 +41,7 @@ class DatasetController extends Controller
                 ->orWhere("birthplace", 'LIKE', "%$search%")
                 ->orWhere("entrydate", 'LIKE', "%$search%")
                 ->orWhere("outdate", 'LIKE', "%$search%")
+                ->orWhere("department", 'LIKE', "%$search%")
                 ->orWhere("status", 'LIKE', "%$search%")
                 ->orWhere("created_at", 'LIKE', "%$search%")
                 ->count();
@@ -51,6 +53,7 @@ class DatasetController extends Controller
                 ->orWhere("birthplace", 'LIKE', "%$search%")
                 ->orWhere("entrydate", 'LIKE', "%$search%")
                 ->orWhere("outdate", 'LIKE', "%$search%")
+                ->orWhere("department", 'LIKE', "%$search%")
                 ->orWhere("status", 'LIKE', "%$search%")
                 ->orWhere("created_at", 'LIKE', "%$search%")
                 ->orderBy($column[$request->order[0]['column'] - 1], $request->order[0]['dir'])

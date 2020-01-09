@@ -29,6 +29,7 @@
                             <th>Tempat Lahir</th>
                             <th>Tahun Masuk</th>
                             <th>Tahun Keluar</th>
+                            <th>Jurusan</th>
                             <th>Status</th>
                             <th>Tanggal Buat</th>
                             <th>Aksi</th>
@@ -213,6 +214,10 @@
                     },
                     {
                         "data": "outdate",
+                        "orderable": true,
+                    },
+                    {
+                        "data": "department",
                         "orderable": true,
                     },
                     {

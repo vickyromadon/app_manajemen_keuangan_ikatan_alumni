@@ -74,6 +74,11 @@
                                     Laporan Keluar
                                 </a>
                             </li>
+                            <li class="{{(Request::segment(1) == 'management-section') ? "active" : ""}}">
+                                <a href="{{ route('management-section.index') }}">
+                                    Bagian Pengurus
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
