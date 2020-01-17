@@ -62,12 +62,18 @@ class DonationController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
+            'title'         => 'required|string|max:20',
             'donation_limit'=> 'required|date',
-            'description'   => 'required|string',
             'link_video'    => 'nullable|string',
             'image'         => 'required|mimes:jpeg,jpg,png|max:5000',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $statusRes = false;
 
@@ -108,12 +114,18 @@ class DonationController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
+            'title'         => 'required|string|max:20',
             'donation_limit'=> 'required|date',
-            'description'   => 'required|string',
             'link_video'    => 'nullable|string',
             'image'         => 'mimes:jpeg,jpg,png|max:5000',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $donation                   = Donation::find($request->id);
         $donation->title            = $request->title;

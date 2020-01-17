@@ -18,7 +18,7 @@
                     </h3>
                 </div>
                 <div class="box-body">
-                    <img class="img-fluid rounded" src="{{ asset('storage/'.$data->image) }}" alt="" style="width:100%">
+                    <img class="img-fluid rounded" src="{{ asset('storage/'.$data->image) }}" alt="" style="width:100%; height:300px;">
 
                     <p class="lead">
                         {!! $data->description !!}

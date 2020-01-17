@@ -78,12 +78,13 @@ class DatasetController extends Controller
     {
         $validator = $request->validate([
             'nis'           => 'required|numeric|unique:datasets',
-            'fullname'      => 'required|string|max:191',
-            'parent_name'   => 'required|string|max:191',
+            'fullname'      => 'required|string|max:20',
+            'parent_name'   => 'required|string|max:20',
             'birthdate'     => 'required|date',
-            'birthplace'    => 'required|string|max:191',
+            'birthplace'    => 'required|string|max:20',
             'entrydate'     => 'required|numeric|digits:4',
             'outdate'       => 'required|numeric|digits:4',
+            'department'       => 'required',
         ]);
 
         $dataset                = new Dataset();
@@ -94,6 +95,7 @@ class DatasetController extends Controller
         $dataset->birthplace    = $request->birthplace;
         $dataset->entrydate     = $request->entrydate;
         $dataset->outdate       = $request->outdate;
+        $dataset->department       = $request->department;
 
         if (!$dataset->save()) {
             return response()->json([
@@ -112,12 +114,14 @@ class DatasetController extends Controller
     {
         $validator = $request->validate([
             'nis'           => 'required', 'numeric', Rule::unique('datasets')->ignore($id),
-            'fullname'      => 'required|string|max:191',
-            'parent_name'   => 'required|string|max:191',
+            'fullname'      => 'required|string|max:20',
+            'parent_name'   => 'required|string|max:20',
             'birthdate'     => 'required|date',
-            'birthplace'    => 'required|string|max:191',
+            'birthplace'    => 'required|string|max:20',
             'entrydate'     => 'required|numeric|digits:4',
-            'outdate'       => 'required|numeric|digits:4'
+            'outdate'       => 'required|numeric|digits:4',
+            'department'       => 'required',
+
         ]);
 
         $dataset                = Dataset::find($request->id);
@@ -128,6 +132,7 @@ class DatasetController extends Controller
         $dataset->birthplace    = $request->birthplace;
         $dataset->entrydate     = $request->entrydate;
         $dataset->outdate       = $request->outdate;
+        $dataset->department       = $request->department;
 
         if (!$dataset->save()) {
             return response()->json([

@@ -118,6 +118,18 @@
                                     <span class="help-block"></span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jurusan</label>
+
+                                <div class="col-sm-9">
+                                    <select name="department" id="department" class="form-control">
+                                        <option value="">-- Pilih Salah Satu --</option>
+                                        <option value="IPA">IPA</option>
+                                        <option value="IPS">IPS</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

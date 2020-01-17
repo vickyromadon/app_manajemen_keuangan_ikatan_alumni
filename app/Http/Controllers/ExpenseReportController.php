@@ -24,7 +24,7 @@ class ExpenseReportController extends Controller
                 "out_date",
                 "type",
                 "nominal",
-                "descripition"
+                "description"
             ];
 
             $total = ExpenseReport::where("out_date", 'LIKE', "%$search%")

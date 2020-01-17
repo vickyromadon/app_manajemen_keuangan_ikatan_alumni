@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-5">
             <a href="#">
-                <img class="img" src="{{ asset('storage/'.$item->image) }}" alt="" style="width:100%; height:300px;">
+                <img class="img" src="{{ asset('storage/'.$item->image) }}" alt="" style="width:450px; height:300px;">
             </a>
         </div>
         <div class="col-md-7">

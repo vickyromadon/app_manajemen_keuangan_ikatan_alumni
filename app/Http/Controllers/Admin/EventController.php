@@ -62,11 +62,17 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
+            'title'         => 'required|string|max:20',
             'date'          => 'required|date',
-            'description'   => 'required|string',
             'image'         => 'required|mimes:jpeg,jpg,png|max:5000',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $statusRes = false;
 
@@ -106,11 +112,17 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
-            'description'   => 'required|string',
+            'title'         => 'required|string|max:20',
             'date'          => 'required|date',
             'image'         => 'mimes:jpeg,jpg,png|max:5000',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $event                 = Event::find($request->id);
         $event->title          = $request->title;

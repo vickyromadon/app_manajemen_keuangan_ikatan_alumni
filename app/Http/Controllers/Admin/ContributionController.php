@@ -67,20 +67,26 @@ class ContributionController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
+            'title'         => 'required|string|max:20',
             'open_date'     => 'required|date',
             'close_date'    => 'required|date',
-            'description'   => 'required|string',
             'status'        => 'required|in:open,close',
         ]);
 
-            $contribution                   = new Contribution();
-            $contribution->title            = $request->title;
-            $contribution->description      = $request->description;
-            $contribution->open_date        = $request->open_date;
-            $contribution->close_date       = $request->close_date;
-            $contribution->status           = $request->status;
-            $contribution->user_id          = Auth::user()->id;
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
+
+        $contribution                   = new Contribution();
+        $contribution->title            = $request->title;
+        $contribution->description      = $request->description;
+        $contribution->open_date        = $request->open_date;
+        $contribution->close_date       = $request->close_date;
+        $contribution->status           = $request->status;
+        $contribution->user_id          = Auth::user()->id;
 
         if (!$contribution->save()) {
             return response()->json([
@@ -98,12 +104,18 @@ class ContributionController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
+            'title'         => 'required|string|max:20',
             'open_date'     => 'required|date',
             'close_date'    => 'required|date',
-            'description'   => 'required|string',
             'status'        => 'required|in:open,close',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $contribution                   = Contribution::find($request->id);
         $contribution->title            = $request->title;

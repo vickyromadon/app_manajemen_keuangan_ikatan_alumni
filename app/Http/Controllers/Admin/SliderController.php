@@ -52,10 +52,16 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'title'            => 'required|string|max:191|unique:sliders',
-            'description'   => 'required|string',
+            'title'            => 'required|string|max:20|unique:sliders',
             'image'         => 'required|mimes:jpeg,jpg,png|max:5000',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $slider                 = new Slider();
         $slider->title          = $request->title;
@@ -84,10 +90,16 @@ class SliderController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $request->validate([
-            'title'            => 'required', 'string', 'max:191', Rule::unique('sliders')->ignore($id),
-            'description'   => 'required|string',
+            'title'            => 'required', 'string', 'max:20', Rule::unique('sliders')->ignore($id),
             'image'         => 'mimes:jpeg,jpg,png|max:5000',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $slider                 = Slider::find($request->id);
         $slider->title          = $request->title;

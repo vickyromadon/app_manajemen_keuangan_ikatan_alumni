@@ -55,9 +55,15 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
-            'description'   => 'required|string',
+            'title'         => 'required|string|max:20',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $news               = new News();
         $news->title        = $request->title;
@@ -80,9 +86,15 @@ class NewsController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
-            'description'   => 'required|string',
+            'title'         => 'required|string|max:20',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $news               = News::find($request->id);
         $news->title        = $request->title;

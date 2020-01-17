@@ -109,7 +109,7 @@
         <div class="row">
             @foreach ($news as $item)
             <div class="col-sm-3">
-                <div class="well" style="min-height:200px;">
+                <div class="well" style="height:250px;">
                     <h4>
                         <b>{{ $item->title }}</b>
                     </h4>
@@ -118,7 +118,7 @@
                         @if (strlen($item->description) > 200)
                             {!! substr($item->description, 0, 200) !!} ... <a href="{{ route('news.show', ['id' => $item->id]) }}">Baca Selengkapnya</a>
                         @else
-                            {!! $item->description !!}
+                            {!! $item->description !!} ... <a href="{{ route('news.show', ['id' => $item->id]) }}">Baca Selengkapnya</a>
                         @endif
                     </p>
                 </div>

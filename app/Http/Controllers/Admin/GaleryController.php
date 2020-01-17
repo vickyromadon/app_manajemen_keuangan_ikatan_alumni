@@ -57,12 +57,18 @@ class GaleryController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
-            'description'   => 'required|string',
+            'title'         => 'required|string|max:20',
             'image'         => 'required|mimes:jpeg,jpg,png|max:5000',
         ]);
 
         $statusRes = false;
+
+        if ($request->description == null) {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         DB::transaction(function () use ($request, &$statusRes) {
 
@@ -100,15 +106,20 @@ class GaleryController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $request->validate([
-            'title'         => 'required|string',
-            'description'   => 'required|string',
+            'title'         => 'required|string|max:20',
             'image'         => 'mimes:jpeg,jpg,png|max:5000',
         ]);
+
+        if ($request->description == "") {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Harap Isi, Deskripsi Terlebih Dahulu.'
+            ]);
+        }
 
         $galery                 = Galery::find($request->id);
         $galery->title          = $request->title;
         $galery->description    = $request->description;
-
 
         if ($request->image != null) {
             if ($galery->image != null) {

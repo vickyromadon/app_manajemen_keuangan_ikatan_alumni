@@ -24,7 +24,7 @@ class IncomeReportController extends Controller
                 "entry_date",
                 "type",
                 "nominal",
-                "descripition"
+                "description"
             ];
 
             $total = IncomeReport::with(['user'])

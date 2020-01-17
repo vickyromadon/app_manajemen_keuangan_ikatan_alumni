@@ -57,9 +57,9 @@ class BankController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'name'        => 'required|string|max:191',
+            'name'        => 'required|string|max:20',
             'number'    => 'required|string|unique:banks',
-            'owner'     => 'required|string|max:191'
+            'owner'     => 'required|string|max:20'
         ]);
 
         $bank           = new Bank();
@@ -83,9 +83,9 @@ class BankController extends Controller
     public function update(Request $request, $id)
     {
         $validator = $request->validate([
-            'name'        => 'required|string|max:191',
+            'name'        => 'required|string|max:20',
             'number'    => 'required', 'string', Rule::unique('banks')->ignore($id),
-            'owner'     => 'required|string|max:191'
+            'owner'     => 'required|string|max:20'
         ]);
 
         $bank           = Bank::find($request->id);

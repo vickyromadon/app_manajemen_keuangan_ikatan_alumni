@@ -22,7 +22,7 @@ class ProfileController extends Controller
     public function changeSetting(Request $request, $id)
     {
         $validator = $request->validate([
-            'name'          => 'nullable|string|max:191',
+            'name'          => 'nullable|string|max:20',
             'email'         => 'nullable|email',
             'phone'         => ['nullable', 'string', Rule::unique('users')->ignore($id)],
             'address'       => 'nullable|string'
