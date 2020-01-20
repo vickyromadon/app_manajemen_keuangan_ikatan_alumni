@@ -52,8 +52,7 @@
         <div class="box-footer">
             <div class="row">
                 <div class="col-md-4">
-                    {{-- <button class="btn btn-success btn-ls"><i class="fa fa-money"></i> Salurkan Dana</button>
-                    <button class="btn btn-info btn-ls"><i class="fa fa-dollar"></i> Keluarkan Iuran</button> --}}
+                    <button id="btnReminder" class="btn btn-warning btn-ls"><i class="fa fa-volume-up"></i> Peringatan</button>
                 </div>
                 <div class="col-md-8">
                     <div class="table-responsive">
@@ -72,12 +71,123 @@
             </div>
         </div>
     </div>
+
+    <!-- reminder -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalReminder">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="#" method="post" id="formReminder">
+                    <input type="hidden" name="contribution_id" id="contribution_id" value="{{ $data->id }}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Peringatan Membayar Iuran</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <p id="del-success">Anda yakin ingin melakukan peringatan membayar iuran ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                            Tidak
+                        </button>
+                        <button type="submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+                            Ya
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
 	<script>
         jQuery(document).ready(function($){
             $('#data_table').DataTable();
+
+            var url;
+
+            // Reminder
+            $('#btnReminder').click(function () {
+                url = '{{ route("admin.contribution.reminder") }}';
+                $('#modalReminder').modal('show');
+            });
+
+            $('#formReminder').submit(function (event) {
+                event.preventDefault();
+
+                $('#modalReminder button[type=submit]').button('loading');
+                var _data = $("#formReminder").serialize();
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: _data,
+                    dataType: 'json',
+                    cache: false,
+
+                    success: function (response) {
+                        if (response.success) {
+                            $.toast({
+	                            heading: 'Success',
+	                            text : response.message,
+	                            position : 'top-right',
+	                            allowToastClose : true,
+	                            showHideTransition : 'fade',
+	                            icon : 'success',
+	                            loader : false
+	                        });
+
+                            $('#modalReminder').modal('toggle');
+
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        }
+                        else{
+                        	$.toast({
+	                            heading: 'Error',
+	                            text : response.message,
+	                            position : 'top-right',
+	                            allowToastClose : true,
+	                            showHideTransition : 'fade',
+	                            icon : 'error',
+	                            loader : false
+	                        });
+                        }
+                        $('#modalReminder button[type=submit]').button('reset');
+                        $('#formReminder')[0].reset();
+                    },
+                    error: function(response){
+                        if (response.status === 400 || response.status === 422) {
+                            // Bad Client Request
+                            $.toast({
+                                heading: 'Error',
+                                text : response.responseJSON.message,
+                                position : 'top-right',
+                                allowToastClose : true,
+                                showHideTransition : 'fade',
+                                icon : 'error',
+                                loader : false
+                            });
+                        } else {
+                            $.toast({
+                                heading: 'Error',
+                                text : "Whoops, looks like something went wrong.",
+                                position : 'top-right',
+                                allowToastClose : true,
+                                showHideTransition : 'fade',
+                                icon : 'error',
+                                loader : false
+                            });
+                        }
+
+                        $('#formReminder button[type=submit]').button('reset');
+                    }
+                });
+            });
         });
     </script>
 @endsection

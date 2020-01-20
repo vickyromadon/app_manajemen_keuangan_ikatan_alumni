@@ -14,6 +14,7 @@ class IncomeReportController extends Controller
             $search;
             $start = $request->start;
             $length = $request->length;
+            $type   = $request->type;
 
             if (!empty($request->search))
                 $search = $request->search['value'];
@@ -29,17 +30,23 @@ class IncomeReportController extends Controller
             ];
 
             $total = IncomeReport::with(['user', 'bank'])
-                ->where("entry_date", 'LIKE', "%$search%")
-                ->orWhere("type", 'LIKE', "%$search%")
-                ->orWhere("nominal", 'LIKE', "%$search%")
-                ->orWhere("description", 'LIKE', "%$search%")
+                ->where("type", 'LIKE', "%$type%")
+                ->where(function ($q) use ($search) {
+                    $q->where("entry_date", 'LIKE', "%$search%")
+                    ->orWhere("type", 'LIKE', "%$search%")
+                    ->orWhere("nominal", 'LIKE', "%$search%")
+                    ->orWhere("description", 'LIKE', "%$search%");
+                })
                 ->count();
 
             $data = IncomeReport::with(['user', 'bank'])
-                ->where("entry_date", 'LIKE', "%$search%")
-                ->orWhere("type", 'LIKE', "%$search%")
-                ->orWhere("nominal", 'LIKE', "%$search%")
-                ->orWhere("description", 'LIKE', "%$search%")
+                ->where("type", 'LIKE', "%$type%")
+                ->where(function ($q) use ($search) {
+                    $q->where("entry_date", 'LIKE', "%$search%")
+                        ->orWhere("type", 'LIKE', "%$search%")
+                        ->orWhere("nominal", 'LIKE', "%$search%")
+                        ->orWhere("description", 'LIKE', "%$search%");
+                })
                 ->orderBy($column[$request->order[0]['column'] - 1], $request->order[0]['dir'])
                 ->skip($start)
                 ->take($length)

@@ -13,6 +13,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
+                @if (Auth::user())
+                    <div class="box-header with-border">
+                        <h3>Jumlah Iuran Per Bulan Adalah : Rp. {{ number_format(env('AMOUNT_CONTRIBUTION')) }}</h3>
+                    </div>
+                @endif
                 <div class="box-body">
                     <div class="table-responsive">
                         <table id="data_table" class="table table-striped table-bordered table-hover nowrap dataTable">
@@ -50,14 +55,14 @@
                         <div class="form-horizontal">
                             <input type="hidden" id="contribution_id" name="contribution_id" value="">
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label class="col-sm-3 control-label">Nominal</label>
 
                                 <div class="col-sm-9">
                                     <input type="text" id="nominal" name="nominal" class="form-control" placeholder="Masukkan Nominal">
                                     <span class="help-block"></span>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Bank Tujuan</label>

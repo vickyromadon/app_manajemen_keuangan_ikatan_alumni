@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Contribution;
+use App\Models\User;
 use App\Models\TotalContribution;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
+
 
 class ContributionController extends Controller
 {
@@ -158,6 +161,38 @@ class ContributionController extends Controller
     {
         return $this->view([
             'data' => Contribution::find($id)
+        ]);
+    }
+
+    public function reminder(Request $request)
+    {
+        $contribution = Contribution::find($request->contribution_id);
+        $idSudahBayar = array();
+        foreach ($contribution->dana_contributions as $item) {
+            array_push($idSudahBayar, $item->user->id);
+        }
+
+        $user = User::where('dataset_id', '<>', null)->get();
+        $idUser = array();
+        foreach ($user as $item) {
+            array_push($idUser, $item->id);
+        }
+
+        foreach ($idUser as $item) {
+            if(!in_array($item, $idSudahBayar)){
+                $notification               = new Notification();
+                $notification->type         = "Peringatan Untuk Membayar Iuran";
+                $notification->message      = "Diharapkan segera membayar iuran " . $contribution->title;
+                $notification->link         = "";
+                $notification->sender_id    = Auth::user()->id;
+                $notification->receiver_id  = $item;
+                $notification->save();
+            }
+        }
+
+        return response()->json([
+            'success'   => true,
+            'message'   => 'Berhasil Mengirim Peringatan.'
         ]);
     }
 }

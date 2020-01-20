@@ -64,7 +64,7 @@ class ContributionController extends Controller
     public function danaContributionAdd(Request $request)
     {
         $validator = $request->validate([
-            'nominal'           => 'required|numeric',
+            // 'nominal'           => 'required|numeric',
             'transfer_date'     => 'required|date',
             'proof'             => 'required|mimes:jpeg,jpg,png|max:5000',
             'bank_id'           => 'required',
@@ -84,7 +84,8 @@ class ContributionController extends Controller
         $danaContribution->contribution_id = $request->contribution_id;
         $danaContribution->bank_id         = $request->bank_id;
         $danaContribution->user_id         = Auth::user()->id;
-        $danaContribution->nominal         = $request->nominal;
+        // $danaContribution->nominal         = $request->nominal;
+        $danaContribution->nominal         = env('AMOUNT_CONTRIBUTION');
         $danaContribution->transfer_date   = $request->transfer_date;
         $danaContribution->description     = $request->description;
         $danaContribution->proof           = $request->file('proof')->store('dana_contribution/' . Auth::user()->id);

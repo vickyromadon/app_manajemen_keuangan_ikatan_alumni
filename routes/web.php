@@ -188,8 +188,9 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::match(['get', 'post'], 'contribution',   'ContributionController@index')->name('contribution.index');
         Route::post('contribution/add',                 'ContributionController@store')->name('contribution.store');
         Route::resource('contribution',                 'ContributionController', ['only' => [
-            'update', 'destroy', 'show'
+        'update', 'destroy', 'show'
         ]]);
+        Route::post('contribution/reminder',            'ContributionController@reminder')->name('contribution.reminder');
 
         // dana-contribution
         Route::match(['get', 'post'], 'dana-contribution',   'DanaContributionController@index')->name('dana-contribution.index');
