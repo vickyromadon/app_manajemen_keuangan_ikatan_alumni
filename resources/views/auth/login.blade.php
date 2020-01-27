@@ -20,6 +20,7 @@
                 </span>
             @endif
         </div>
+
         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
             <input id="password" type="password" class="form-control" name="password" placeholder="Masukkan Kata Sandi" required>
             @if ($errors->has('password'))
@@ -28,17 +29,26 @@
                 </span>
             @endif
         </div>
-        <div class="form-group">
-            <!-- /.col -->
-            <button type="submit" class="btn btn-primary btn-block btn-flat">Masuk</button>
-            <!-- /.col -->
 
-            <div>
-                <br>
-                <p class="pull-left"><a href="{{ route('index') }}"><u>Home</u></a></p>
-                <p class="pull-right">Belum Memiliki Akun ? <a href="{{ route('check-nis') }}"><u>Daftar Sekarang</u></a></p>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Masuk</button>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <p class="pull-left"><a href="{{ route('index') }}"><u>Home</u></a></p>
+                </div>
+                <div class="col-md-10">
+                    <p class="pull-right">Belum Memiliki Akun ? <a href="{{ route('check-nis') }}"><u>Daftar Sekarang</u></a></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="pull-left"><a href="{{ route('forgot-nis') }}"><u>Lupa NIS</u></a></p>
+                </div>
+                <div class="col-md-6">
+                    <p class="pull-right"><a href="{{ route('forgot-password') }}"><u>Lupa Kata Sandi</u></a></p>
+                </div>
             </div>
         </div>
-
     </form>
 @endsection

@@ -43,7 +43,10 @@ class RegisterController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
             return redirect()->route('check-data', [
-                'nis' => $request->nis
+                'nis' => $dataset->nis,
+                'fullname' => $dataset->fullname,
+                'entrydate' => $dataset->entrydate,
+                'outdate' => $dataset->outdate,
             ]);
         }
     }
@@ -65,6 +68,7 @@ class RegisterController extends Controller
                 'birthplace'    => 'required',
                 'entrydate'     => 'required|numeric|digits:4',
                 'outdate'       => 'required|numeric|digits:4',
+                'password'      => 'required|string|min:6|confirmed',
             ]
         );
 
@@ -88,8 +92,7 @@ class RegisterController extends Controller
         }
 
         $statusResponse = false;
-        $password       = str_random(8);
-        $passwordHash   = Hash::make($password);
+        $passwordHash   = Hash::make($request->password);
 
         \DB::transaction(function() use ($dataset, &$passwordHash, &$statusResponse){
             $user = new User();
@@ -114,10 +117,7 @@ class RegisterController extends Controller
         });
 
         if ( $statusResponse ){
-            return redirect()->route('result-account',[
-                'nis' => $request->nis,
-                'password' => $password
-            ]);
+            return redirect()->route('login');
         } else {
             return redirect()->route('result-account',[
                 'data-error' => "Terjadi Kesalahan.",

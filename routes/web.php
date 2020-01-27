@@ -24,6 +24,14 @@ Route::post('check-nis', 'Auth\RegisterController@checkNIS');
 Route::get('check-data', 'Auth\RegisterController@showFormCheckData')->name('check-data');
 Route::post('check-data', 'Auth\RegisterController@checkData');
 
+// forgot NIS
+Route::get('forgot/nis', 'Auth\LoginController@showFormForgotNIS')->name('forgot-nis');
+Route::post('forgot/nis', 'Auth\LoginController@forgotNIS');
+
+// forgot password
+Route::get('forgot/password', 'Auth\LoginController@showFormForgotPassword')->name('forgot-password');
+Route::post('forgot/password', 'Auth\LoginController@forgotPassword');
+
 // result account
 Route::get('result-account', 'Auth\RegisterController@resultAccount')->name('result-account');
 
