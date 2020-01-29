@@ -103,14 +103,14 @@
                     },
                     {
                         "data": "description",
-                        "orderable": true,
+                        "orderable": false,
                     },
                     {
                         "data": "user",
                         render: function (data, type, row, meta) {
                             return data.name;
                         },
-                        "orderable": true,
+                        "orderable": false,
                     },
                     {
                         "data": "bank",

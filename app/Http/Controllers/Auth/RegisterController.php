@@ -117,7 +117,7 @@ class RegisterController extends Controller
         });
 
         if ( $statusResponse ){
-            return redirect()->route('login');
+            return redirect()->route('login')->with('status', 'Pendaftaran Berhasil.');
         } else {
             return redirect()->route('result-account',[
                 'data-error' => "Terjadi Kesalahan.",

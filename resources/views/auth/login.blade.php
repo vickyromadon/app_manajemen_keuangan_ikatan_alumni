@@ -9,7 +9,17 @@
 @endsection
 
 @section('content')
+    {{-- Success Alert --}}
+    @if(session('status'))
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-check"></i> Pendafaran Berhasil</h4>
+            Selamat Anda Telah Memiliki Akun Untuk Login.
+        </div>
+    @endif
+
     <p class="login-box-msg">Masukkan NIS dan Kata Sandi</p>
+
     <form action="{{ route('login') }}" method="post" autocomplete="off">
         {{ csrf_field() }}
         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }} has-feedback">

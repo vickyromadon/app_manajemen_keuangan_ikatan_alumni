@@ -69,7 +69,7 @@
                     },
                     {
                         "data": "description",
-                        "orderable": true,
+                        "orderable": false,
                     }
                 ],
                 "order": [ 1, 'desc' ],
