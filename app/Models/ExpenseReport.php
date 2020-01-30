@@ -12,6 +12,6 @@ class ExpenseReport extends Model
      * @var array
      */
     protected $fillable = [
-        'entry_date', 'type', 'nominal', 'description'
+        'entry_date', 'type', 'nominal', 'description', 'receiver'
     ];
 }

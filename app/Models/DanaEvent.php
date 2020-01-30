@@ -14,7 +14,7 @@ class DanaEvent extends Model
     protected $fillable = [
         'nominal', 'transfer_date', 'proof',
         'description', 'status', 'user_id',
-        'bank_id', 'event_id'
+        'bank_id', 'event_id', 'code'
     ];
 
     /**

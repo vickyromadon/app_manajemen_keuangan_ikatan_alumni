@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode Transaksi</th>
                             <th>Nama Alumni</th>
                             <th>Nominal</th>
                             <th>Tanggal Transfer</th>
@@ -60,11 +61,15 @@
                        "orderable": false,
                     },
                     {
+                        "data": "code",
+                        "orderable": true,
+                    },
+                    {
                         "data": "user",
                         render : function(data, type, row){
                             return data.name;
                         },
-                        "orderable": true,
+                        "orderable": false,
                     },
                     {
                         "data": "nominal",
@@ -79,14 +84,14 @@
                         render : function(data, type, row){
                             return data.name;
                         },
-                        "orderable": true,
+                        "orderable": false,
                     },
                     {
                         "data": "donation",
                         render : function(data, type, row){
                             return data.title;
                         },
-                        "orderable": true,
+                        "orderable": false,
                     },
                     {
                         "data": "status",

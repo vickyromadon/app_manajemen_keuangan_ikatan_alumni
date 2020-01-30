@@ -26,6 +26,7 @@ class DanaDonationController extends Controller
                 $search = null;
 
             $column = [
+                "code",
                 "",
                 "nominal",
                 "transfer_date",
@@ -38,6 +39,7 @@ class DanaDonationController extends Controller
 
             $total = DanaDonation::with(['user', 'bank', 'donation'])
                 ->where("nominal", 'LIKE', "%$search%")
+                ->orWhere("code", 'LIKE', "%$search%")
                 ->orWhere("transfer_date", 'LIKE', "%$search%")
                 ->orWhere("status", 'LIKE', "%$search%")
                 ->orWhere("created_at", 'LIKE', "%$search%")
@@ -45,6 +47,7 @@ class DanaDonationController extends Controller
 
             $data = DanaDonation::with(['user', 'bank', 'donation'])
                 ->where("nominal", 'LIKE', "%$search%")
+                ->orWhere("code", 'LIKE', "%$search%")
                 ->orWhere("transfer_date", 'LIKE', "%$search%")
                 ->orWhere("status", 'LIKE', "%$search%")
                 ->orWhere("created_at", 'LIKE', "%$search%")

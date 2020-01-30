@@ -65,26 +65,30 @@
                 </div>
                 <div class="box-body">
                     <ul class="products-list product-list-in-box">
-                        @foreach ($data->dana_events as $item)
-                            @if ( $item->status === "approve" )
-                                <li class="item">
-                                    <div class="product-img">
-                                        @if ( $item->user->image !== null )
-                                            <img src="{{ asset('storage/'.$item->user->image) }}" alt="Product Image">
-                                        @else
-                                            <img src="{{ asset('images/avatar_default.png') }}" alt="Product Image">
+                        <div class="table-responsive">
+                            <table id="data_table" class="table table-striped table-bordered table-hover nowrap dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Kode Transaksi</th>
+                                        <th>Nama Alumni</th>
+                                        <th>Nominal</th>
+                                        <th>Pesan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data->dana_events as $item)
+                                        @if ( $item->status === "approve" )
+                                            <tr>
+                                                <td>{{ $item->code }}</td>
+                                                <td>{{ $item->user->name }}</td>
+                                                <td>{{ $item->nominal }}</td>
+                                                <td>{{ $item->description }}</td>
+                                            </tr>
                                         @endif
-                                    </div>
-                                    <div class="product-info">
-                                        <a href="javascript:void(0)" class="product-title">{{ $item->user->name }}
-                                            <span class="label label-warning pull-right">Rp. {{ $item->nominal }}</span></a>
-                                        <span class="product-description">
-                                            {{ $item->description }}
-                                        </span>
-                                    </div>
-                                </li>
-                            @endif
-                        @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -177,6 +181,8 @@
 @section('js')
     <script>
         jQuery(document).ready(function($){
+            $('#data_table').DataTable();
+
             var url = null;
             $('#btnGalang').click(function () {
                 @if( Auth::user() )

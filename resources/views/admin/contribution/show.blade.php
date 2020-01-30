@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode Transaksi</th>
                             <th>Alumni</th>
                             <th>Nominal</th>
                             <th>Tanggal Transfer</th>
@@ -34,6 +35,7 @@
                             @if ($item->status === "approve")
                                 <tr>
                                     <td>{{ $i += 1 }}</td>
+                                    <td>{{ $item->code }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->nominal }}</td>
                                     <td>{{ $item->transfer_date }}</td>

@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode Transaksi</th>
                             <th>Alumni</th>
                             <th>Nominal</th>
                             <th>Tanggal Transfer</th>
@@ -34,6 +35,7 @@
                             @if ($item->status === "approve")
                                 <tr>
                                     <td>{{ $i += 1 }}</td>
+                                    <td>{{ $item->code }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->nominal }}</td>
                                     <td>{{ $item->transfer_date }}</td>
@@ -109,7 +111,9 @@
 
                         <input type="hidden" name="id_donation" value="{{ $data->id }}">
                         <input type="hidden" name="nominal" value="{{ $total }}">
-                        <textarea name="description" id="description" class="form-control" placeholder="Masukkan sesuatu"></textarea>
+                        <textarea name="description" id="description" class="form-control" placeholder="Masukkan sesuatu" required></textarea>
+                        <br>
+                        <input name="receiver" id="receiver" class="form-control" placeholder="Masukkan Nama Penerima" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
@@ -162,6 +166,15 @@
 
                                 <div class="col-sm-9">
                                     <textarea name="description" class="form-control" placeholder="Masukkan Sesuatu"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nama Penerima</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" id="receiver" name="receiver" class="form-control" placeholder="Masukkan Nama Penerima">
                                     <span class="help-block"></span>
                                 </div>
                             </div>

@@ -194,9 +194,10 @@ class EventController extends Controller
     public function salurkanDana(Request $request)
     {
         $validator = $request->validate([
-            'id_event'   => 'required|numeric',
+            'id_event'      => 'required|numeric',
             'nominal'       => 'required|numeric',
-            'description'   => 'nullable',
+            'receiver'      => 'required|string',
+            'description'   => 'required|string',
         ]);
 
         $event = Event::find($request->id_event);
@@ -208,6 +209,7 @@ class EventController extends Controller
         $expenseReport->type        = "Salurkan Galang Dana untuk " . $event->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
+        $expenseReport->receiver    = $request->receiver;
 
         if ($expenseReport->save()) {
             return response()->json([
@@ -227,7 +229,8 @@ class EventController extends Controller
         $validator = $request->validate([
             'id_event'      => 'required|numeric',
             'nominal'       => 'required|numeric',
-            'description'   => 'nullable',
+            'description'   => 'required|string',
+            'receiver'      => 'required|string',
         ]);
 
         $event = Event::find($request->id_event);
@@ -239,6 +242,7 @@ class EventController extends Controller
         $expenseReport->type        = "Pengeluaran Iuran untuk " . $event->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
+        $expenseReport->receiver    = $request->receiver;
 
         if ($expenseReport->save()) {
             $totalContribution = TotalContribution::find(1);

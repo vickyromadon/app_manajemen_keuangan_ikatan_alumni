@@ -26,6 +26,7 @@ class DanaEventController extends Controller
                 $search = null;
 
             $column = [
+                "code",
                 "",
                 "nominal",
                 "transfer_date",
@@ -38,6 +39,7 @@ class DanaEventController extends Controller
 
             $total = DanaEvent::with(['user', 'bank', 'event'])
                 ->where("nominal", 'LIKE', "%$search%")
+                ->orWhere("code", 'LIKE', "%$search%")
                 ->orWhere("transfer_date", 'LIKE', "%$search%")
                 ->orWhere("status", 'LIKE', "%$search%")
                 ->orWhere("created_at", 'LIKE', "%$search%")
@@ -45,6 +47,7 @@ class DanaEventController extends Controller
 
             $data = DanaEvent::with(['user', 'bank', 'event'])
                 ->where("nominal", 'LIKE', "%$search%")
+                ->orWhere("code", 'LIKE', "%$search%")
                 ->orWhere("transfer_date", 'LIKE', "%$search%")
                 ->orWhere("status", 'LIKE', "%$search%")
                 ->orWhere("created_at", 'LIKE', "%$search%")

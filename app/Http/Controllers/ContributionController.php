@@ -81,6 +81,7 @@ class ContributionController extends Controller
         }
 
         $danaContribution                  = new DanaContribution();
+        $danaContribution->code            = "TRX/CONTRIBUTION/" . date("YmdHms");
         $danaContribution->contribution_id = $request->contribution_id;
         $danaContribution->bank_id         = $request->bank_id;
         $danaContribution->user_id         = Auth::user()->id;

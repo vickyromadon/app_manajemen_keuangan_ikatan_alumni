@@ -24,6 +24,18 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h5>
+                                <b>Kode Transaksi</b>
+                            </h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>
+                                {{ $data->code }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>
                                 <b>Nominal</b>
                             </h5>
                         </div>

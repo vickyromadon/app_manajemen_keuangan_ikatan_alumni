@@ -201,6 +201,7 @@ class DonationController extends Controller
             'id_donation'   => 'required|numeric',
             'nominal'       => 'required|numeric',
             'description'   => 'nullable',
+            'receiver'      => 'required|string',
         ]);
 
         $donation = Donation::find($request->id_donation);
@@ -212,6 +213,7 @@ class DonationController extends Controller
         $expenseReport->type        = "Salurkan Donasi untuk " . $donation->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
+        $expenseReport->receiver    = $request->receiver;
 
         if ($expenseReport->save()) {
             return response()->json([
@@ -232,6 +234,7 @@ class DonationController extends Controller
             'id_donation'   => 'required|numeric',
             'nominal'       => 'required|numeric',
             'description'   => 'nullable',
+            'receiver'      => 'required|string',
         ]);
 
         $donation = Donation::find($request->id_donation);
@@ -243,6 +246,7 @@ class DonationController extends Controller
         $expenseReport->type        = "Pengeluaran Iuran untuk " . $donation->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
+        $expenseReport->receiver    = $request->receiver;
 
         if ($expenseReport->save()) {
             $totalContribution = TotalContribution::find(1);

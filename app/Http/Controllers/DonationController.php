@@ -38,6 +38,7 @@ class DonationController extends Controller
         ]);
 
         $danaDonation                  = new DanaDonation();
+        $danaDonation->code            = "TRX/DONATION/" . date("YmdHms");
         $danaDonation->donation_id     = $request->donation_id;
         $danaDonation->bank_id         = $request->bank_id;
         $danaDonation->user_id         = Auth::user()->id;

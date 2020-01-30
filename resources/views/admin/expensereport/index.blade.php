@@ -21,6 +21,7 @@
                             <th>Tanggal Keluar</th>
                             <th>Jenis</th>
                             <th>Nominal</th>
+                            <th>Nama Penerima</th>
                             <th>Deskripsi</th>
                         </tr>
                     </thead>
@@ -65,6 +66,10 @@
                     },
                     {
                         "data": "nominal",
+                        "orderable": true,
+                    },
+                    {
+                        "data": "receiver",
                         "orderable": true,
                     },
                     {
