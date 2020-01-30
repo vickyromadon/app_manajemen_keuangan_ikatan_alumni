@@ -115,21 +115,26 @@ class LoginController extends Controller
             ->where('birthplace', $request->birthplace)
             ->first();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
         if ($dataset == null) {
             $validator->after(function ($validator) {
                 $validator->errors()->add('data-error', 'Data tidak ditemukan.');
             });
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
         }
 
         if ($dataset->status == 0) {
             $validator->after(function ($validator) {
                 $validator->errors()->add('data-error', 'Belum Memiliki Akun.');
             });
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
         }
+
 
         $data = array(
             'nis' => $dataset->nis
@@ -179,12 +184,20 @@ class LoginController extends Controller
             $validator->after(function ($validator) {
                 $validator->errors()->add('data-error', 'Data tidak ditemukan.');
             });
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
         }
 
         if ($dataset->status == 0) {
             $validator->after(function ($validator) {
                 $validator->errors()->add('data-error', 'Belum Memiliki Akun.');
             });
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
         }
 
         $password       = str_random(8);
