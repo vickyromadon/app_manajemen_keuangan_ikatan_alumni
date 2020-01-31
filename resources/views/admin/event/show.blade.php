@@ -113,7 +113,13 @@
                         <input type="hidden" name="nominal" value="{{ $total }}">
                         <textarea name="description" id="description" class="form-control" placeholder="Masukkan sesuatu" required></textarea>
                         <br>
-                        <input name="receiver" id="receiver" class="form-control" placeholder="Masukkan Nama Penerima" required>
+                        <input type="text" name="receiver" id="receiver" class="form-control" placeholder="Masukkan Nama Penerima" required>
+                        <br>
+                        <input type="text" name="bank_name" id="bank_name" class="form-control" placeholder="Masukkan Nama Bank" required>
+                        <br>
+                        <input type="number" name="bank_number" id="bank_number" class="form-control" placeholder="Masukkan Nomor Rekening" required>
+                        <br>
+                        <input type="text" name="bank_owner" id="bank_owner" class="form-control" placeholder="Masukkan Nama Pemilik" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">

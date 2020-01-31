@@ -202,6 +202,9 @@ class DonationController extends Controller
             'nominal'       => 'required|numeric',
             'description'   => 'nullable',
             'receiver'      => 'required|string',
+            'bank_name'      => 'required|string',
+            'bank_number'      => 'required|numeric',
+            'bank_owner'      => 'required|string',
         ]);
 
         $donation = Donation::find($request->id_donation);
@@ -214,6 +217,9 @@ class DonationController extends Controller
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
         $expenseReport->receiver    = $request->receiver;
+        $expenseReport->bank_name    = $request->bank_name;
+        $expenseReport->bank_number    = $request->bank_number;
+        $expenseReport->bank_owner    = $request->bank_owner;
 
         if ($expenseReport->save()) {
             return response()->json([

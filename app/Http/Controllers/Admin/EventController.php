@@ -231,6 +231,9 @@ class EventController extends Controller
             'nominal'       => 'required|numeric',
             'description'   => 'required|string',
             'receiver'      => 'required|string',
+            'bank_name'      => 'required|string',
+            'bank_number'      => 'required|numeric',
+            'bank_owner'      => 'required|string',
         ]);
 
         $event = Event::find($request->id_event);
@@ -243,6 +246,9 @@ class EventController extends Controller
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
         $expenseReport->receiver    = $request->receiver;
+        $expenseReport->bank_name    = $request->bank_name;
+        $expenseReport->bank_number    = $request->bank_number;
+        $expenseReport->bank_owner    = $request->bank_owner;
 
         if ($expenseReport->save()) {
             $totalContribution = TotalContribution::find(1);

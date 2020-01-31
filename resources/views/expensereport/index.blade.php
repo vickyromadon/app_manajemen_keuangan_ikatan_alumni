@@ -21,6 +21,9 @@
                             <th>Jenis</th>
                             <th>Nominal</th>
                             <th>Nama Penerima</th>
+                            <th>Nama Bank</th>
+                            <th>Nomor Rekening</th>
+                            <th>Nama Pemilik Bank</th>
                             <th>Deskripsi</th>
                         </tr>
                     </thead>
@@ -72,8 +75,20 @@
                         "orderable": true,
                     },
                     {
+                        "data": "bank_name",
+                        "orderable": false,
+                    },
+                    {
+                        "data": "bank_number",
+                        "orderable": false,
+                    },
+                    {
+                        "data": "bank_owner",
+                        "orderable": false,
+                    },
+                    {
                         "data": "description",
-                        "orderable": true,
+                        "orderable": false,
                     }
                 ],
                 "order": [ 1, 'desc' ],
