@@ -13,6 +13,6 @@ class ExpenseReport extends Model
      */
     protected $fillable = [
         'entry_date', 'type', 'nominal', 'description', 'receiver',
-        'bank_name', 'bank_number', 'bank_owner'
+        'bank_name', 'bank_number', 'bank_owner', 'sender', 'code'
     ];
 }

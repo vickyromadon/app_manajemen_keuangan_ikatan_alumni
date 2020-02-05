@@ -22,6 +22,7 @@ class IncomeReportController extends Controller
                 $search = null;
 
             $column = [
+                "code",
                 "entry_date",
                 "type",
                 "nominal",
@@ -32,6 +33,7 @@ class IncomeReportController extends Controller
                 ->where("type", 'LIKE', "%$type%")
                 ->where(function ($q) use ($search) {
                     $q->where("entry_date", 'LIKE', "%$search%")
+                    ->orWhere("code", 'LIKE', "%$search%")
                     ->orWhere("type", 'LIKE', "%$search%")
                     ->orWhere("nominal", 'LIKE', "%$search%")
                     ->orWhere("description", 'LIKE', "%$search%");
@@ -42,6 +44,7 @@ class IncomeReportController extends Controller
                 ->where("type", 'LIKE', "%$type%")
                 ->where(function ($q) use ($search) {
                     $q->where("entry_date", 'LIKE', "%$search%")
+                        ->orWhere("code", 'LIKE', "%$search%")
                         ->orWhere("type", 'LIKE', "%$search%")
                         ->orWhere("nominal", 'LIKE', "%$search%")
                         ->orWhere("description", 'LIKE', "%$search%");

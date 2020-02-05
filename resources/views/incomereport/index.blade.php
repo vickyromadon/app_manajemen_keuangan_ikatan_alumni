@@ -36,6 +36,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode</th>
                             <th>Tanggal Masuk</th>
                             <th>Jenis</th>
                             <th>Nominal</th>
@@ -79,6 +80,10 @@
                        "orderable": false,
                     },
                     {
+                        "data": "code",
+                        "orderable": true,
+                    },
+                    {
                         "data": "entry_date",
                         "orderable": true,
                     },
@@ -111,7 +116,7 @@
                         "orderable": false,
                     }
                 ],
-                "order": [ 1, 'desc' ],
+                "order": [ 2, 'desc' ],
                 "fnCreatedRow" : function(nRow, aData, iDataIndex) {
                     $(nRow).attr('data', JSON.stringify(aData));
                 }

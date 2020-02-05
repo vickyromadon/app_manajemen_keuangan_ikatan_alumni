@@ -38,7 +38,7 @@ class EventController extends Controller
         ]);
 
         $danaEvent                  = new DanaEvent();
-        $danaEvent->code            = "TRX/EVENT/" . date("YmdHms");
+        $danaEvent->code            = "EVT/" . date("YmdHms");
         $danaEvent->event_id        = $request->event_id;
         $danaEvent->bank_id         = $request->bank_id;
         $danaEvent->user_id         = Auth::user()->id;

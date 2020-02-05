@@ -229,5 +229,8 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::resource('user',                 'UserController', ['only' => [
             'show', 'update', 'destroy'
         ]]);
+
+        // accountancy
+        Route::match(['get', 'post'], 'accountancy',   'AccountancyController@index')->name('accountancy.index');
     });
 });

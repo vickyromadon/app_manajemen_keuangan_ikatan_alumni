@@ -17,13 +17,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode</th>
                             <th>Tanggal Keluar</th>
                             <th>Jenis</th>
                             <th>Nominal</th>
+                            <th>Nama Penyalur</th>
                             <th>Nama Penerima</th>
-                            <th>Nama Bank</th>
-                            <th>Nomor Rekening</th>
-                            <th>Nama Pemilik Bank</th>
                             <th>Deskripsi</th>
                         </tr>
                     </thead>
@@ -59,6 +58,10 @@
                        "orderable": false,
                     },
                     {
+                        "data": "code",
+                        "orderable": true,
+                    },
+                    {
                         "data": "out_date",
                         "orderable": true,
                     },
@@ -71,27 +74,19 @@
                         "orderable": true,
                     },
                     {
-                        "data": "receiver",
+                        "data": "sender",
                         "orderable": true,
                     },
                     {
-                        "data": "bank_name",
-                        "orderable": false,
-                    },
-                    {
-                        "data": "bank_number",
-                        "orderable": false,
-                    },
-                    {
-                        "data": "bank_owner",
-                        "orderable": false,
+                        "data": "receiver",
+                        "orderable": true,
                     },
                     {
                         "data": "description",
                         "orderable": false,
                     }
                 ],
-                "order": [ 1, 'desc' ],
+                "order": [ 2, 'desc' ],
                 "fnCreatedRow" : function(nRow, aData, iDataIndex) {
                     $(nRow).attr('data', JSON.stringify(aData));
                 }

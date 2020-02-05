@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaContribution;
+use App\Models\Accountancy;
 use App\Models\TotalContribution;
 use App\Models\User;
 use App\Models\IncomeReport;
@@ -85,6 +86,7 @@ class DanaContributionController extends Controller
 
             if ($danaContribution->save()) {
                 $incomeReport                       = new IncomeReport();
+                $incomeReport->code                 = $danaContribution->code;
                 $incomeReport->entry_date           = $danaContribution->transfer_date;
                 $incomeReport->type                 = "contribution";
                 $incomeReport->nominal              = $danaContribution->nominal;
@@ -98,7 +100,19 @@ class DanaContributionController extends Controller
                     $totalContribution->dana += $danaContribution->nominal;
 
                     if ($totalContribution->save()) {
-                        $statusRes = true;
+                        $accountancy                = new Accountancy();
+                        $accountancy->code          = $incomeReport->code;
+                        $accountancy->date          = $incomeReport->entry_date;
+                        $accountancy->type          = $incomeReport->type;
+                        $accountancy->income        = $incomeReport->nominal;
+                        $accountancy->expense       = 0;
+                        $accountancy->total         = $incomeReport->nominal;
+
+                        if ($accountancy->save()) {
+                            $statusRes = true;
+                        } else {
+                            $statusRes = false;
+                        }
                     } else {
                         $statusRes = false;
                     }

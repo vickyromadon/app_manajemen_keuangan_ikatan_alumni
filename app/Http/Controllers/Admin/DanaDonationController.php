@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaDonation;
+use App\Models\Accountancy;
 use App\Models\IncomeReport;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -84,6 +85,7 @@ class DanaDonationController extends Controller
 
             if ($danaDonation->save()) {
                 $incomeReport                   = new IncomeReport();
+                $incomeReport->code             = $danaDonation->code;
                 $incomeReport->entry_date       = $danaDonation->transfer_date;
                 $incomeReport->type             = "donation";
                 $incomeReport->nominal          = $danaDonation->nominal;
@@ -93,7 +95,19 @@ class DanaDonationController extends Controller
                 $incomeReport->bank_id          = $danaDonation->bank_id;
 
                 if ($incomeReport->save()) {
-                    $statusRes = true;
+                    $accountancy                = new Accountancy();
+                    $accountancy->code          = $incomeReport->code;
+                    $accountancy->date          = $incomeReport->entry_date;
+                    $accountancy->type          = $incomeReport->type;
+                    $accountancy->income        = $incomeReport->nominal;
+                    $accountancy->expense       = 0;
+                    $accountancy->total         = $incomeReport->nominal;
+
+                    if ($accountancy->save()) {
+                        $statusRes = true;
+                    } else {
+                        $statusRes = false;
+                    }
                 } else {
                     $statusRes = false;
                 }

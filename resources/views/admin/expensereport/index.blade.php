@@ -18,9 +18,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode</th>
                             <th>Tanggal Keluar</th>
                             <th>Jenis</th>
                             <th>Nominal</th>
+                            <th>Nama Penyalur</th>
                             <th>Nama Penerima</th>
                             <th>Nama Bank</th>
                             <th>Nomor Rekening</th>
@@ -60,6 +62,10 @@
                        "orderable": false,
                     },
                     {
+                        "data": "code",
+                        "orderable": true,
+                    },
+                    {
                         "data": "out_date",
                         "orderable": true,
                     },
@@ -69,6 +75,10 @@
                     },
                     {
                         "data": "nominal",
+                        "orderable": true,
+                    },
+                    {
+                        "data": "sender",
                         "orderable": true,
                     },
                     {
@@ -92,7 +102,7 @@
                         "orderable": false,
                     }
                 ],
-                "order": [ 1, 'desc' ],
+                "order": [ 2, 'desc' ],
                 "fnCreatedRow" : function(nRow, aData, iDataIndex) {
                     $(nRow).attr('data', JSON.stringify(aData));
                 }

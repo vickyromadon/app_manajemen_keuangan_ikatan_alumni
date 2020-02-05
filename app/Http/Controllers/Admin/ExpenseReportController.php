@@ -21,23 +21,29 @@ class ExpenseReportController extends Controller
                 $search = null;
 
             $column = [
+                "code",
                 "out_date",
                 "type",
                 "nominal",
+                "sender",
                 "receiver",
                 "descripition"
             ];
 
             $total = ExpenseReport::where("out_date", 'LIKE', "%$search%")
+                ->orWhere("code", 'LIKE', "%$search%")
                 ->orWhere("type", 'LIKE', "%$search%")
                 ->orWhere("nominal", 'LIKE', "%$search%")
+                ->orWhere("sender", 'LIKE', "%$search%")
                 ->orWhere("receiver", 'LIKE', "%$search%")
                 ->orWhere("description", 'LIKE', "%$search%")
                 ->count();
 
             $data = ExpenseReport::where("out_date", 'LIKE', "%$search%")
+                ->orWhere("code", 'LIKE', "%$search%")
                 ->orWhere("type", 'LIKE', "%$search%")
                 ->orWhere("nominal", 'LIKE', "%$search%")
+                ->orWhere("sender", 'LIKE', "%$search%")
                 ->orWhere("receiver", 'LIKE', "%$search%")
                 ->orWhere("description", 'LIKE', "%$search%")
                 ->orderBy($column[$request->order[0]['column'] - 1], $request->order[0]['dir'])

@@ -253,6 +253,14 @@
                     </li>
                     @endif
 
+                    @if (Auth::user()->can('accountancy'))
+                    <li class="{{(Request::segment(2) == 'accountancy') ? "active" : ""}}">
+                        <a href="{{ route('admin.accountancy.index') }}">
+                            <i class="fa fa-folder"></i> <span>Pembukuan</span>
+                        </a>
+                    </li>
+                    @endif
+
                     @if (Auth::user()->can('role'))
                     <li class="{{(Request::segment(2) == 'role') ? "active" : ""}}">
                         <a href="{{ route('admin.role.index') }}">

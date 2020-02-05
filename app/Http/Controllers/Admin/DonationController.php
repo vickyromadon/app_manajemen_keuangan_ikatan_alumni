@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Donation;
+use App\Models\Accountancy;
 use App\Models\TotalContribution;
 use App\Models\ExpenseReport;
 use Illuminate\Http\Request;
@@ -212,16 +213,27 @@ class DonationController extends Controller
         $donation->save();
 
         $expenseReport              = new ExpenseReport();
+        $expenseReport->code        = "OUT/DNT/" . date("YmdHms");
         $expenseReport->out_date    = date("Y-m-d");
         $expenseReport->type        = "Salurkan Donasi untuk " . $donation->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
         $expenseReport->receiver    = $request->receiver;
-        $expenseReport->bank_name    = $request->bank_name;
-        $expenseReport->bank_number    = $request->bank_number;
-        $expenseReport->bank_owner    = $request->bank_owner;
+        $expenseReport->sender      = Auth::user()->name;
+        $expenseReport->bank_name   = $request->bank_name;
+        $expenseReport->bank_number = $request->bank_number;
+        $expenseReport->bank_owner  = $request->bank_owner;
 
         if ($expenseReport->save()) {
+            $accountancy                = new Accountancy();
+            $accountancy->code          = $expenseReport->code;
+            $accountancy->date          = $expenseReport->out_date;
+            $accountancy->type          = $expenseReport->type;
+            $accountancy->income        = 0;
+            $accountancy->expense       = $expenseReport->nominal;
+            $accountancy->total         = $expenseReport->nominal;
+            $accountancy->save();
+
             return response()->json([
                 'success'  => true,
                 'message'  => 'Berhasil Salurkan Donasi'
@@ -248,16 +260,27 @@ class DonationController extends Controller
         $donation->save();
 
         $expenseReport              = new ExpenseReport();
+        $expenseReport->code        = "OUT/CTB-DNT/" . date("YmdHms");
         $expenseReport->out_date    = date("Y-m-d");
         $expenseReport->type        = "Pengeluaran Iuran untuk " . $donation->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
         $expenseReport->receiver    = $request->receiver;
+        $expenseReport->sender      = Auth::user()->name;
 
         if ($expenseReport->save()) {
             $totalContribution = TotalContribution::find(1);
             $totalContribution->dana -= $request->nominal;
             $totalContribution->save();
+
+            $accountancy                = new Accountancy();
+            $accountancy->code          = $expenseReport->code;
+            $accountancy->date          = $expenseReport->out_date;
+            $accountancy->type          = $expenseReport->type;
+            $accountancy->income        = 0;
+            $accountancy->expense       = $expenseReport->nominal;
+            $accountancy->total         = $expenseReport->nominal;
+            $accountancy->save();
 
             return response()->json([
                 'success'  => true,

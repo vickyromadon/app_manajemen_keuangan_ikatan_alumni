@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\DanaEvent;
+use App\Models\Accountancy;
 use App\Models\IncomeReport;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -84,6 +85,7 @@ class DanaEventController extends Controller
 
             if ($danaEvent->save()) {
                 $incomeReport                   = new IncomeReport();
+                $incomeReport->code             = $danaEvent->code;
                 $incomeReport->entry_date       = $danaEvent->transfer_date;
                 $incomeReport->type             = "event";
                 $incomeReport->nominal          = $danaEvent->nominal;
@@ -93,7 +95,19 @@ class DanaEventController extends Controller
                 $incomeReport->bank_id          = $danaEvent->bank_id;
 
                 if ($incomeReport->save()) {
-                    $statusRes = true;
+                    $accountancy                = new Accountancy();
+                    $accountancy->code          = $incomeReport->code;
+                    $accountancy->date          = $incomeReport->entry_date;
+                    $accountancy->type          = $incomeReport->type;
+                    $accountancy->income        = $incomeReport->nominal;
+                    $accountancy->expense       = 0;
+                    $accountancy->total         = $incomeReport->nominal;
+
+                    if ($accountancy->save()) {
+                        $statusRes = true;
+                    } else {
+                        $statusRes = false;
+                    }
                 } else {
                     $statusRes = false;
                 }

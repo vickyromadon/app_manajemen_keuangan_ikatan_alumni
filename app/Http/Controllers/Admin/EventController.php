@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Event;
+use App\Models\Accountancy;
 use Illuminate\Http\Request;
 use App\Models\TotalContribution;
 use App\Models\ExpenseReport;
@@ -198,6 +199,9 @@ class EventController extends Controller
             'nominal'       => 'required|numeric',
             'receiver'      => 'required|string',
             'description'   => 'required|string',
+            'bank_name'      => 'required|string',
+            'bank_number'      => 'required|numeric',
+            'bank_owner'      => 'required|string',
         ]);
 
         $event = Event::find($request->id_event);
@@ -205,13 +209,27 @@ class EventController extends Controller
         $event->save();
 
         $expenseReport              = new ExpenseReport();
+        $expenseReport->code        = "OUT/EVT/" . date("YmdHms");
         $expenseReport->out_date    = date("Y-m-d");
         $expenseReport->type        = "Salurkan Galang Dana untuk " . $event->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
         $expenseReport->receiver    = $request->receiver;
+        $expenseReport->sender      = Auth::user()->name;
+        $expenseReport->bank_name   = $request->bank_name;
+        $expenseReport->bank_number = $request->bank_number;
+        $expenseReport->bank_owner  = $request->bank_owner;
 
         if ($expenseReport->save()) {
+            $accountancy                = new Accountancy();
+            $accountancy->code          = $expenseReport->code;
+            $accountancy->date          = $expenseReport->out_date;
+            $accountancy->type          = $expenseReport->type;
+            $accountancy->income        = 0;
+            $accountancy->expense       = $expenseReport->nominal;
+            $accountancy->total         = $expenseReport->nominal;
+            $accountancy->save();
+
             return response()->json([
                 'success'  => true,
                 'message'  => 'Berhasil Salurkan Galang Dana'
@@ -230,10 +248,7 @@ class EventController extends Controller
             'id_event'      => 'required|numeric',
             'nominal'       => 'required|numeric',
             'description'   => 'required|string',
-            'receiver'      => 'required|string',
-            'bank_name'      => 'required|string',
-            'bank_number'      => 'required|numeric',
-            'bank_owner'      => 'required|string',
+            'receiver'      => 'required|string'
         ]);
 
         $event = Event::find($request->id_event);
@@ -241,19 +256,27 @@ class EventController extends Controller
         $event->save();
 
         $expenseReport              = new ExpenseReport();
+        $expenseReport->code        = "OUT/CTB-EVT/" . date("YmdHms");
         $expenseReport->out_date    = date("Y-m-d");
         $expenseReport->type        = "Pengeluaran Iuran untuk " . $event->title;
         $expenseReport->nominal     = $request->nominal;
         $expenseReport->description = $request->description;
+        $expenseReport->sender      = Auth::user()->name;
         $expenseReport->receiver    = $request->receiver;
-        $expenseReport->bank_name    = $request->bank_name;
-        $expenseReport->bank_number    = $request->bank_number;
-        $expenseReport->bank_owner    = $request->bank_owner;
 
         if ($expenseReport->save()) {
             $totalContribution = TotalContribution::find(1);
             $totalContribution->dana -= $request->nominal;
             $totalContribution->save();
+
+            $accountancy                = new Accountancy();
+            $accountancy->code          = $expenseReport->code;
+            $accountancy->date          = $expenseReport->out_date;
+            $accountancy->type          = $expenseReport->type;
+            $accountancy->income        = 0;
+            $accountancy->expense       = $expenseReport->nominal;
+            $accountancy->total         = $expenseReport->nominal;
+            $accountancy->save();
 
             return response()->json([
                 'success'  => true,

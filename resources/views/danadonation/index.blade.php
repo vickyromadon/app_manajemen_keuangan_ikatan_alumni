@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode</th>
                             <th>Nominal</th>
                             <th>Tanggal Transfer</th>
                             <th>Bank Transfer</th>
@@ -57,6 +58,10 @@
                        },
                        "width": "20px",
                        "orderable": false,
+                    },
+                    {
+                        "data": "code",
+                        "orderable": true,
                     },
                     {
                         "data": "nominal",

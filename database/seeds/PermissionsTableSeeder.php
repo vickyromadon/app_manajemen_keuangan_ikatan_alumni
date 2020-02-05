@@ -152,6 +152,15 @@ class PermissionsTableSeeder extends Seeder
         $role->attachPermission($permission);
 
         $permission = Permission::firstOrCreate(
+            ['name' => 'accountancy'],
+            [
+                'display_name' => 'Menu Pembukuan',
+                'description' => ' Mengelola data pembukuan.'
+            ]
+        );
+        $role->attachPermission($permission);
+
+        $permission = Permission::firstOrCreate(
             ['name' => 'role'],
             [
                 'display_name' => 'Menu Peranan',

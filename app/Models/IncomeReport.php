@@ -14,7 +14,7 @@ class IncomeReport extends Model
     protected $fillable = [
         'entry_date', 'type', 'nominal', 'description',
         'dana_donation_id', 'dana_event_id', 'dana_contribution_id',
-        'user_id', 'bank_id'
+        'user_id', 'bank_id', 'code'
     ];
 
     /**
