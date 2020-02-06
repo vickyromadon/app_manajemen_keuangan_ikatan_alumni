@@ -28,13 +28,16 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th id="income"></th>
-                            <th id="expense"></th>
-                            <th></th>
-                            <th></th>
+                            <th colspan="5"><h4 class="pull-right">Total Pemasukkan</h4></th>
+                            <th colspan="2"><h4 id="income" class="pull-right"></h4></th>
+                        </tr>
+                        <tr>
+                            <th colspan="5"><h4 class="pull-right">Total Pengeluaran</h4></th>
+                            <th colspan="2"><h4 id="expense" class="pull-right"></h4></th>
+                        </tr>
+                        <tr>
+                            <th colspan="5"><h4 class="pull-right">Total Kas Tersisa</h4></th>
+                            <th colspan="2"><h4 id="kas" class="pull-right"></h4></th>
                         </tr>
                     </tfoot>
                 </table>
@@ -80,6 +83,7 @@
                     var sumExpense = $('#data_table').DataTable().column(4).data().sum();
                     $('#income').html(sumIncome);
                     $('#expense').html(sumExpense);
+                    $('#kas').html(sumIncome - sumExpense);
                 },
                 "columns": [
                     {
