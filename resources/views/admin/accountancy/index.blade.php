@@ -17,7 +17,6 @@
                 <table id="data_table" class="table table-striped table-bordered table-hover nowrap dataTable">
                     <thead>
                         <tr>
-                            <th>No</th>
                             <th>Kode</th>
                             <th>Tanggal</th>
                             <th>Pemasukkan</th>
@@ -26,9 +25,21 @@
                             <th>Tanggal di Buat</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach ($data as $item)
+                            <tr>
+                                <td>{{ $item->code }}</td>
+                                <td>{{ $item->date }}</td>
+                                <td>{{ $item->income }}</td>
+                                <td>{{ $item->expense }}</td>
+                                <td>{{ $item->total }}</td>
+                                <td>{{ $item->created_at }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="3" style="text-align:right">Total : </th>
+                            <th colspan="2" style="text-align:right">Total : </th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -57,56 +68,9 @@
 	<script>
         jQuery(document).ready(function($){
             var table = $('#data_table').DataTable({
-                "bFilter": true,
-                "processing": true,
-                "serverSide": true,
-                "lengthChange": true,
-                "ajax": {
-                    "url": "{{ route('admin.accountancy.index') }}",
-                    "type": "POST",
-                    "data" : {}
-                },
-                "dom": 'Bfrtip',
-                "buttons": [
-                    'csv', 'excel', 'pdf', 'print'
-                ],
                 "language": {
                     "emptyTable": "Tidak Ada Data Tersedia",
                 },
-                "columns": [
-                    {
-                       data: null,
-                       render: function (data, type, row, meta) {
-                           return meta.row + meta.settings._iDisplayStart + 1;
-                       },
-                       "width": "20px",
-                       "orderable": false,
-                    },
-                    {
-                        "data": "code",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "date",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "income",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "expense",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "total",
-                        "orderable": true,
-                    },
-                    {
-                        "data": "created_at",
-                        "orderable": true,
-                    }
-                ],
                 "footerCallback": function ( row, data, start, end, display ) {
                     var api = this.api(), data;
 
@@ -120,52 +84,49 @@
 
                     // Total over this page
                     pageTotalPemasukkan = api
-                        .column( 3, { page: 'current'} )
+                        .column( 2, { page: 'current'} )
                         .data()
                         .reduce( function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0 );
 
                     totalPemasukkan = api
-                        .column( 3 )
+                        .column( 2 )
                         .data()
                         .reduce( function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0 );
 
                     pageTotalPengeluaran = api
-                        .column( 4, { page: 'current'} )
+                        .column( 3, { page: 'current'} )
                         .data()
                         .reduce( function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0 );
 
                     totalPengeluaran = api
-                        .column( 4 )
+                        .column( 3 )
                         .data()
                         .reduce( function (a, b) {
                             return intVal(a) + intVal(b);
                         }, 0 );
 
                     // Update footer
-                    $( api.column( 3 ).footer() ).html(
+                    $( api.column( 2 ).footer() ).html(
                         pageTotalPemasukkan +' ( '+ totalPemasukkan +' Grand total)'
                     );
-                    $( api.column( 4 ).footer() ).html(
+                    $( api.column( 3 ).footer() ).html(
                         pageTotalPengeluaran +' ( '+ totalPengeluaran +' Grand total)'
                     );
 
                     let pageTotal   = pageTotalPemasukkan - pageTotalPengeluaran;
                     let total       = totalPemasukkan - totalPengeluaran;
 
-                    $( api.column( 5 ).footer() ).html(
+                    $( api.column( 4 ).footer() ).html(
                         pageTotal +' ( '+ total +' Grand total)'
                     );
                 },
-                "order": [ 6, 'desc' ],
-                "fnCreatedRow" : function(nRow, aData, iDataIndex) {
-                    $(nRow).attr('data', JSON.stringify(aData));
-                }
+                "order": [ 5, 'desc' ]
             });
         });
     </script>
