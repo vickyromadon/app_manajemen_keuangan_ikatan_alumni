@@ -28,16 +28,11 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="5"><h4 class="pull-right">Total Pemasukkan</h4></th>
-                            <th colspan="2"><h4 id="income" class="pull-right"></h4></th>
-                        </tr>
-                        <tr>
-                            <th colspan="5"><h4 class="pull-right">Total Pengeluaran</h4></th>
-                            <th colspan="2"><h4 id="expense" class="pull-right"></h4></th>
-                        </tr>
-                        <tr>
-                            <th colspan="5"><h4 class="pull-right">Total Kas Tersisa</h4></th>
-                            <th colspan="2"><h4 id="kas" class="pull-right"></h4></th>
+                            <th colspan="3" style="text-align:right">Total : </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </tfoot>
                 </table>
@@ -78,13 +73,6 @@
                 "language": {
                     "emptyTable": "Tidak Ada Data Tersedia",
                 },
-                "drawCallback": function () {
-                    var sumIncome = $('#data_table').DataTable().column(3).data().sum();
-                    var sumExpense = $('#data_table').DataTable().column(4).data().sum();
-                    $('#income').html(sumIncome);
-                    $('#expense').html(sumExpense);
-                    $('#kas').html(sumIncome - sumExpense);
-                },
                 "columns": [
                     {
                        data: null,
@@ -119,6 +107,61 @@
                         "orderable": true,
                     }
                 ],
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    // Total over this page
+                    pageTotalPemasukkan = api
+                        .column( 3, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    totalPemasukkan = api
+                        .column( 3 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    pageTotalPengeluaran = api
+                        .column( 4, { page: 'current'} )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    totalPengeluaran = api
+                        .column( 4 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+                    // Update footer
+                    $( api.column( 3 ).footer() ).html(
+                        pageTotalPemasukkan +' ( '+ totalPemasukkan +' Grand total)'
+                    );
+                    $( api.column( 4 ).footer() ).html(
+                        pageTotalPengeluaran +' ( '+ totalPengeluaran +' Grand total)'
+                    );
+
+                    let pageTotal   = pageTotalPemasukkan - pageTotalPengeluaran;
+                    let total       = totalPemasukkan - totalPengeluaran;
+
+                    $( api.column( 5 ).footer() ).html(
+                        pageTotal +' ( '+ total +' Grand total)'
+                    );
+                },
                 "order": [ 6, 'desc' ],
                 "fnCreatedRow" : function(nRow, aData, iDataIndex) {
                     $(nRow).attr('data', JSON.stringify(aData));
