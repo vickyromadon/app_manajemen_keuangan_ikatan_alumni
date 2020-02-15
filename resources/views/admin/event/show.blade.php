@@ -103,11 +103,11 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">Salurkan Donasi</h4>
+                        <h4 class="modal-title">Salurkan Dana</h4>
                     </div>
 
                     <div class="modal-body">
-                        <p id="del-success">Anda yakin ingin menyalurkan donasi ini ?</p>
+                        <p id="del-success">Anda yakin ingin menyalurkan dana ini ?</p>
 
                         <input type="hidden" name="id_event" value="{{ $data->id }}">
                         <input type="hidden" name="nominal" value="{{ $total }}">
@@ -120,6 +120,8 @@
                         <input type="number" name="bank_number" id="bank_number" class="form-control" placeholder="Masukkan Nomor Rekening" required>
                         <br>
                         <input type="text" name="bank_owner" id="bank_owner" class="form-control" placeholder="Masukkan Nama Pemilik" required>
+                        <br>
+                        <input type="file" name="proof" id="proof" class="form-control" placeholder="Masukkan Bukti" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">

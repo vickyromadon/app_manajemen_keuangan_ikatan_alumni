@@ -202,6 +202,7 @@ class EventController extends Controller
             'bank_name'      => 'required|string',
             'bank_number'      => 'required|numeric',
             'bank_owner'      => 'required|string',
+            'proof'         => 'required|mimes:jpeg,jpg,png|max:5000',
         ]);
 
         $event = Event::find($request->id_event);
@@ -219,6 +220,8 @@ class EventController extends Controller
         $expenseReport->bank_name   = $request->bank_name;
         $expenseReport->bank_number = $request->bank_number;
         $expenseReport->bank_owner  = $request->bank_owner;
+        $expenseReport->proof          = $request->file('proof')->store('expense_report');
+
 
         if ($expenseReport->save()) {
             $accountancy                = new Accountancy();

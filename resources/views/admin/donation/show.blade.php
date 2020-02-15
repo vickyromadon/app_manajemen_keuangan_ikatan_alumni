@@ -120,6 +120,8 @@
                         <input type="number" name="bank_number" id="bank_number" class="form-control" placeholder="Masukkan Nomor Rekening" required>
                         <br>
                         <input type="text" name="bank_owner" id="bank_owner" class="form-control" placeholder="Masukkan Nama Pemilik" required>
+                        <br>
+                        <input type="file" name="proof" id="proof" class="form-control" placeholder="Masukkan Bukti" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">

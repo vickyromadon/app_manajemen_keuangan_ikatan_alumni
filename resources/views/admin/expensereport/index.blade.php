@@ -28,9 +28,39 @@
                             <th>Nomor Rekening</th>
                             <th>Nama Pemilik Bank</th>
                             <th>Deskripsi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- view -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalView">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+
+                <div class="modal-body">
+                    <table style="border-spacing: 10px; border-collapse: separate;">
+                        <tr>
+                            <th>Bukti Transfer</th>
+                            <td>:</td>
+                            <td id="image"><img src="#" class="img-thumbnail" style="height:40vh; width:50vh;"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
+                        Tutup
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -100,12 +130,34 @@
                     {
                         "data": "description",
                         "orderable": false,
+                    },
+                    {
+                        render : function(data, type, row){
+                            return	'<a href="#" class="view-btn btn btn-xs btn-info"><i class="fa fa-eye"> Lihat Bukti</i></a>';
+                        },
+                        "width": "10%",
+                        "orderable": false,
                     }
                 ],
                 "order": [ 2, 'desc' ],
                 "fnCreatedRow" : function(nRow, aData, iDataIndex) {
                     $(nRow).attr('data', JSON.stringify(aData));
                 }
+            });
+
+            // View
+            $('#data_table').on('click', '.view-btn', function(e){
+                $('#modalView .modal-title').text("Lihat Bukti Penyaluran Dana");
+
+                var aData = JSON.parse($(this).parent().parent().attr('data'));
+
+                if (aData.proof != null) {
+                    $('#modalView #image img').attr("src", "{{ asset('storage/')}}" + "/" + aData.proof);
+                } else {
+                    $('#modalView #image img').attr("src", "{{ asset('images/default.jpg')}}");
+                }
+
+                $('#modalView').modal('show');
             });
         });
     </script>
