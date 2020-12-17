@@ -25,7 +25,7 @@
     },
     "dependencies": {
         "admin-lte": "^2.4.10",
-        "datatables.net": "^1.10.19",
+        "datatables.net": "^1.10.22",
         "datatables.net-bs": "^1.10.19",
         "font-awesome": "^4.7.0",
         "icheck": "^1.0.2",
